@@ -4962,6 +4962,71 @@ section:last-child {
   background: linear-gradient(135deg, #ff5a8d, #a855f7);
 }
 
+/* Time Slot Buttons */
+.time-slot {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 42, 109, 0.3);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.time-slot:hover {
+  background: rgba(255, 42, 109, 0.2);
+  border-color: var(--pink);
+  transform: translateY(-2px);
+}
+
+.time-slot.selected {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 4px 15px rgba(255, 42, 109, 0.5);
+}
+
+/* Seat Buttons */
+.seat {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.seat:hover {
+  background: rgba(255, 42, 109, 0.3);
+  border-color: var(--pink);
+  transform: scale(1.1);
+}
+
+.seat.selected {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 42, 109, 0.5);
+}
+
+.seat.occupied {
+  background: rgba(128, 128, 128, 0.3);
+  border-color: rgba(128, 128, 128, 0.5);
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.seat.occupied:hover {
+  transform: none;
+  background: rgba(128, 128, 128, 0.3);
+}
+
 /* Checkout modal with animated card */
 .checkout-modal {
   position: fixed;
@@ -6609,6 +6674,82 @@ body {
   </div>
 </div>
 
+<!-- Ticket Selection Modal -->
+<div id="ticketModal" class="checkout-modal">
+  <div class="checkout-dialog">
+    <div class="checkout-header">
+      <h3>🎟️ Select Your Ticket</h3>
+      <div id="ticketModalClose" class="checkout-close">×</div>
+    </div>
+    <div class="checkout-body" style="padding: 25px;">
+      <div id="ticketMovieInfo" style="margin-bottom: 25px; padding: 15px; background: rgba(255, 42, 109, 0.1); border-radius: 10px; border: 1px solid rgba(255, 42, 109, 0.3);">
+        <h3 id="ticketMovieTitle" style="color: var(--pink); margin-bottom: 5px;">Movie Title</h3>
+        <p id="ticketMovieYear" style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Year</p>
+      </div>
+
+      <!-- Date Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-calendar-alt"></i> Select Date
+        </label>
+        <input type="date" id="ticketDate" class="checkout-input" style="width: 100%;" />
+      </div>
+
+      <!-- Screen Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-tv"></i> Select Screen
+        </label>
+        <select id="ticketScreen" class="checkout-input" style="width: 100%;">
+          <option value="">Choose a screen...</option>
+          <option value="IMAX 1">IMAX 1 - Premium Experience</option>
+          <option value="IMAX 2">IMAX 2 - Premium Experience</option>
+          <option value="Screen 1">Screen 1 - Standard</option>
+          <option value="Screen 2">Screen 2 - Standard</option>
+          <option value="Screen 3">Screen 3 - Standard</option>
+          <option value="4DX">4DX - Motion Seats</option>
+          <option value="Dolby Atmos">Dolby Atmos - Premium Sound</option>
+        </select>
+      </div>
+
+      <!-- Time Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-clock"></i> Select Time
+        </label>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+          <button class="time-slot" data-time="10:00 AM">10:00 AM</button>
+          <button class="time-slot" data-time="1:00 PM">1:00 PM</button>
+          <button class="time-slot" data-time="4:00 PM">4:00 PM</button>
+          <button class="time-slot" data-time="7:00 PM">7:00 PM</button>
+          <button class="time-slot" data-time="10:00 PM">10:00 PM</button>
+        </div>
+      </div>
+
+      <!-- Seat Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-couch"></i> Select Seat
+        </label>
+        <div id="seatMap" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; max-width: 400px; margin: 0 auto;">
+          <!-- Seats will be generated dynamically -->
+        </div>
+        <div style="text-align: center; margin-top: 15px; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+          <span style="color: rgba(255, 255, 255, 0.7);">Selected Seat: </span>
+          <span id="selectedSeatDisplay" style="color: var(--pink); font-weight: 600;">None</span>
+        </div>
+      </div>
+    </div>
+    <div class="checkout-footer">
+      <div class="checkout-actions">
+        <button id="ticketConfirmBtn" class="add-cart-btn" style="width: 100%; padding: 15px; font-size: 1.1rem; margin: 0;">
+          <i class="fas fa-shopping-cart"></i> Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Checkout Modal with Animated Card -->
 <div id="checkoutModal" class="checkout-modal">
   <div class="checkout-dialog">
@@ -7879,18 +8020,19 @@ function setupCart() {
         imgSrc = "images/dune.jpg"; // Default fallback
       }
 
-      cartItems.push({ title, img: imgSrc, price: 9.99 });
-      cartCount = cartItems.length;
-      updateCartDisplay();
-      renderCartModal();
-      showToast(`${title} added to cart`);
-      
-      // Save to localStorage
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-      const currentUser = localStorage.getItem('currentUser');
-      if (currentUser) {
-        localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+      // Normalize image path
+      if (imgSrc && !imgSrc.includes("images/") && !imgSrc.startsWith("http")) {
+        if (!imgSrc.includes("/")) {
+          imgSrc = "images/" + imgSrc;
+        }
       }
+      
+      // Store movie info and open ticket selection modal
+      currentTicketSelection.title = title;
+      currentTicketSelection.img = imgSrc;
+      
+      // Open ticket modal
+      openTicketModal(title, imgSrc);
     });
   });
 
@@ -8428,6 +8570,199 @@ function setupCart() {
   renderCartModal();
 }
 
+// Ticket Modal Variables
+let currentTicketSelection = {
+  title: '',
+  img: '',
+  date: '',
+  screen: '',
+  time: '',
+  seat: ''
+};
+
+// Ticket Modal Functions
+function openTicketModal(title, imgSrc) {
+  const ticketModal = document.getElementById('ticketModal');
+  const ticketMovieTitle = document.getElementById('ticketMovieTitle');
+  const ticketMovieYear = document.getElementById('ticketMovieYear');
+  
+  if (ticketMovieTitle) ticketMovieTitle.textContent = title;
+  if (ticketMovieYear) ticketMovieYear.textContent = new Date().getFullYear();
+  
+  // Set minimum date to today
+  const ticketDate = document.getElementById('ticketDate');
+  const today = new Date().toISOString().split('T')[0];
+  if (ticketDate) {
+    ticketDate.setAttribute('min', today);
+    ticketDate.value = today;
+    currentTicketSelection.date = today;
+  }
+  
+  // Generate seats
+  generateSeats();
+  
+  // Reset other selections
+  currentTicketSelection.screen = '';
+  currentTicketSelection.time = '';
+  currentTicketSelection.seat = '';
+  
+  // Clear previous selections visually
+  document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected'));
+  document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+  const screenSelect = document.getElementById('ticketScreen');
+  if (screenSelect) screenSelect.value = '';
+  const seatDisplay = document.getElementById('selectedSeatDisplay');
+  if (seatDisplay) seatDisplay.textContent = 'None';
+  
+  if (ticketModal) {
+    ticketModal.classList.add('show');
+  }
+}
+
+function generateSeats() {
+  const seatMap = document.getElementById('seatMap');
+  if (!seatMap) return;
+  
+  seatMap.innerHTML = '';
+  const rows = ['A', 'B', 'C', 'D', 'E'];
+  const seatsPerRow = 8;
+  
+  // Randomly occupy some seats for demo
+  const occupiedSeats = new Set();
+  for (let i = 0; i < 10; i++) {
+    const randomRow = rows[Math.floor(Math.random() * rows.length)];
+    const randomSeat = Math.floor(Math.random() * seatsPerRow) + 1;
+    occupiedSeats.add(`${randomRow}${randomSeat}`);
+  }
+  
+  rows.forEach(row => {
+    for (let i = 1; i <= seatsPerRow; i++) {
+      const seatId = `${row}${i}`;
+      const seat = document.createElement('button');
+      seat.type = 'button';
+      seat.className = 'seat';
+      seat.textContent = seatId;
+      seat.dataset.seat = seatId;
+      
+      if (occupiedSeats.has(seatId)) {
+        seat.classList.add('occupied');
+        seat.disabled = true;
+      } else {
+        seat.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          selectSeat(seatId);
+        });
+      }
+      
+      seatMap.appendChild(seat);
+    }
+  });
+}
+
+function selectSeat(seatId) {
+  document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+  
+  const seatBtn = document.querySelector(`[data-seat="${seatId}"]`);
+  if (seatBtn) {
+    seatBtn.classList.add('selected');
+    currentTicketSelection.seat = seatId;
+    
+    const display = document.getElementById('selectedSeatDisplay');
+    if (display) display.textContent = seatId;
+  }
+}
+
+function initTicketModal() {
+  const ticketModal = document.getElementById('ticketModal');
+  const ticketModalClose = document.getElementById('ticketModalClose');
+  const ticketConfirmBtn = document.getElementById('ticketConfirmBtn');
+  const ticketDate = document.getElementById('ticketDate');
+  const ticketScreen = document.getElementById('ticketScreen');
+  
+  if (ticketModalClose) {
+    ticketModalClose.addEventListener('click', () => {
+      if (ticketModal) ticketModal.classList.remove('show');
+    });
+  }
+  
+  if (ticketModal) {
+    ticketModal.addEventListener('click', (e) => {
+      if (e.target === ticketModal) {
+        ticketModal.classList.remove('show');
+      }
+    });
+  }
+  
+  document.querySelectorAll('.time-slot').forEach(slot => {
+    slot.type = 'button';
+    slot.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+      currentTicketSelection.time = slot.dataset.time;
+    });
+  });
+  
+  if (ticketDate) {
+    ticketDate.addEventListener('change', (e) => {
+      currentTicketSelection.date = e.target.value;
+    });
+  }
+  
+  if (ticketScreen) {
+    ticketScreen.addEventListener('change', (e) => {
+      currentTicketSelection.screen = e.target.value;
+    });
+  }
+  
+  if (ticketConfirmBtn) {
+    ticketConfirmBtn.addEventListener('click', () => {
+      if (!currentTicketSelection.date) {
+        showToast('Please select a date', true);
+        return;
+      }
+      if (!currentTicketSelection.screen) {
+        showToast('Please select a screen', true);
+        return;
+      }
+      if (!currentTicketSelection.time) {
+        showToast('Please select a time', true);
+        return;
+      }
+      if (!currentTicketSelection.seat) {
+        showToast('Please select a seat', true);
+        return;
+      }
+      
+      cartItems.push({
+        title: currentTicketSelection.title,
+        img: currentTicketSelection.img,
+        cardImage: currentTicketSelection.img,
+        price: 9.99,
+        date: currentTicketSelection.date,
+        screen: currentTicketSelection.screen,
+        time: currentTicketSelection.time,
+        seat: currentTicketSelection.seat
+      });
+      
+      cartCount = cartItems.length;
+      updateCartDisplay();
+      renderCartModal();
+      showToast(currentTicketSelection.title + " added to cart");
+      
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser) {
+        localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+      }
+      
+      if (ticketModal) ticketModal.classList.remove('show');
+    });
+  }
+}
+
 // Hero Buy Ticket - add current hero movie to cart
 const heroBuyTicketBtn = document.getElementById("heroBuyTicket");
 if (heroBuyTicketBtn) {
@@ -8492,24 +8827,12 @@ if (heroBuyTicketBtn) {
       }
     }
     
-    // Add to cart with proper structure
-    cartItems.push({ 
-      title: title, 
-      img: imgSrc, 
-      cardImage: imgSrc, 
-      price: 9.99 
-    });
-    cartCount = cartItems.length;
-    updateCartDisplay();
-    renderCartModal();
-    showToast(`${title} added to cart`);
+    // Store movie info and open ticket selection modal
+    currentTicketSelection.title = title;
+    currentTicketSelection.img = imgSrc;
     
-    // Save to localStorage
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
-    }
+    // Open ticket modal
+    openTicketModal(title, imgSrc);
   });
 }
 
@@ -8676,8 +8999,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", setupCart);
+  document.addEventListener("DOMContentLoaded", () => {
+    initTicketModal();
+    setupCart();
+  });
 } else {
+  initTicketModal();
   setupCart();
 }
 
@@ -8855,6 +9182,16 @@ if (document.readyState === "loading") {
     }
 
 }); // End of DOMContentLoaded
+
+// Offline detection - redirect to error page
+window.addEventListener('offline', () => {
+  window.location.href = 'error.html';
+});
+
+// Check connection on load
+if (!navigator.onLine) {
+  window.location.href = 'error.html';
+}
 
     </script>
   </body>

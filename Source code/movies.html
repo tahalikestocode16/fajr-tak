@@ -3707,6 +3707,33 @@ section:last-child {
     }
 }
 
+/* Review Forms Responsive */
+@media (max-width: 768px) {
+    .review-forms-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    .review-form-card {
+        min-height: auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .review-forms-grid {
+        gap: 15px !important;
+        padding: 0 10px;
+    }
+    
+    .review-form-card {
+        padding: 15px !important;
+    }
+    
+    #addReviewsContainer {
+        margin-bottom: 30px !important;
+    }
+}
+
 @media (max-width: 600px) {
     /* Ensure horizontal scroll for reviews */
     .reviews-grid, .theatre-reviews-grid {
@@ -4366,7 +4393,7 @@ section:last-child {
     <div class="hero-slide" style="background-image:url('images/jujutsu.jpg');" data-title="Jujutsu Kaisen" data-year="2021" data-rating="★★★★★" data-description="A boy swallows a cursed talisman and enters a world of jujutsu sorcerers to exorcise curses."></div>
     <div class="hero-slide" style="background-image:url('images/batman.jpg');" data-title="Batman" data-year="2008" data-rating="★★★★★" data-description="When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice."></div>
     <div class="hero-slide" style="background-image:url('images/dandadan.jpg');" data-title="Dandadan" data-year="2024" data-rating="★★★★★" data-description="Join the adventures of momo okarun and jiji,into the hotsprings"></div>
-    <div class="hero-slide" style="background-image:url('images/rob.jpg');" data-title="Oppenheimer" data-year="2023" data-rating="★★★★★" data-description="The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb."></div>
+    <div class="hero-slide" style="background-image:url('images/rob.jpg');" data-title="Batman Beyond" data-year="2023" data-rating="★★★★★" data-description="The Dark Knight returns in a futuristic Gotham City, mentoring a new generation of heroes."></div>
     
     <div class="hero-slide " style="background-image:url('images/interstellar.jpg');" data-title="Interstellar" data-year="2014" data-rating="★★★★★" data-description="A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."></div>
     <div class="hero-slide" style="background-image:url('images/kai.jpg');" data-title="Shibuya Incident" data-year="2023" data-rating="★★★★★" data-description="A group of teenagers are terrorized by a supernatural force in Shibuya, Tokyo."></div>
@@ -4428,8 +4455,8 @@ section:last-child {
 
   <div class="trends-section" id="trends">
     <h2>TRENDS NOW</h2>
-    <div class="trend-item"><img src="images/batman.png"><div><h4>Batman Beyond</h4><p>2022</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Batman Beyond', '2022', 'images/batman.png')"></div></div>
-    <div class="trend-item"><img src="images/ken.jpg"><div><h4>Dandadan</h4><p>2025</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Dandadan', '2025', 'images/ken.jpg')"></div></div>
+    <div class="trend-item"><img src="images/batman.jpg"><div><h4>Batman Beyond</h4><p>2022</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Batman Beyond', '2022', 'images/batman.jpg')"></div></div>
+    <div class="trend-item"><img src="images/dandadan.jpg"><div><h4>Dandadan</h4><p>2025</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Dandadan', '2025', 'images/dandadan.jpg')"></div></div>
     <div class="trend-item"><img src="images/spiderverse.png"><div><h4>Spiderverse Beyond</h4><p>2024</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Spiderverse Beyond', '2024', 'images/spiderverse.png')"></div></div>
     <div class="trend-item"><img src="images/jujutsu.jpg"><div><h4>Jujutsu Kaisen</h4><p>2021</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Jujutsu Kaisen', '2021', 'images/jujutsu.jpg')"></div></div>
     <div class="trend-item"><img src="images/Solo Leveling Poster.jpg"><div><h4>Solo Leveling</h4><p>2024</p></div><div class="wishlist-icon" onclick="addToWishlistFromTrend(this, 'Solo Leveling', '2024', 'images/Solo Leveling Poster.jpg')"></div></div>
@@ -4484,8 +4511,83 @@ section:last-child {
 <!-- Reviews Section -->
 <section class="reviews-section">
   <div class="reviews-container">
-    <h2 class="section-heading">MOVIE REVIEWS</h2>
-    <div class="reviews-grid">
+    <h2 class="section-heading">REVIEWS</h2>
+    
+    <!-- Add Review Forms Side by Side (Only for logged-in users) -->
+    <div id="addReviewsContainer" style="display: none; margin-bottom: 50px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;">
+        
+        <!-- Movie Review Form -->
+        <div id="addReviewSection" style="background: rgba(17, 13, 24, 0.4); border-radius: 10px; padding: 20px; border: 1px solid rgba(255, 42, 109, 0.15); backdrop-filter: blur(10px);">
+          <h3 style="color: rgba(255, 42, 109, 0.9); margin-bottom: 15px; font-size: 1rem; font-weight: 600;"><i class="fas fa-film"></i> Movie Review</h3>
+          
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Movie Name</label>
+            <input type="text" id="reviewMovieName" placeholder="Enter movie name" style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: white; font-size: 0.9rem;">
+          </div>
+          
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Rating</label>
+            <div id="starRatingInput" style="display: flex; gap: 6px; font-size: 22px; cursor: pointer;">
+              <span class="star-input" data-rating="1">☆</span>
+              <span class="star-input" data-rating="2">☆</span>
+              <span class="star-input" data-rating="3">☆</span>
+              <span class="star-input" data-rating="4">☆</span>
+              <span class="star-input" data-rating="5">☆</span>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Your Review</label>
+            <textarea id="reviewText" placeholder="Share your thoughts..." style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: white; font-size: 0.9rem; min-height: 80px; height: 80px; resize: none;"></textarea>
+          </div>
+          
+          <button id="submitReviewBtn" style="width: 100%; padding: 10px; margin: 0; background: rgba(255, 42, 109, 0.8); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease;">
+            <i class="fas fa-paper-plane"></i> Submit
+          </button>
+        </div>
+        
+        <!-- Theatre Review Form -->
+        <div id="addTheatreReviewSection" class="review-form-card" style="background: rgba(17, 13, 24, 0.4); border-radius: 10px; padding: 20px; border: 1px solid rgba(255, 42, 109, 0.15); backdrop-filter: blur(10px); min-height: 420px;">
+          <h3 style="color: rgba(255, 42, 109, 0.9); margin-bottom: 15px; font-size: 1rem; font-weight: 600;"><i class="fas fa-theater-masks"></i> Theatre Review</h3>
+          
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Theatre Name</label>
+            <input type="text" id="theatreName" placeholder="Enter theatre name" style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: white; font-size: 0.9rem;">
+          </div>
+          
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Location</label>
+            <input type="text" id="theatreLocation" placeholder="Enter location" style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: white; font-size: 0.9rem;">
+          </div>
+          
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Rating</label>
+            <div id="theatreStarRatingInput" style="display: flex; gap: 6px; font-size: 22px; cursor: pointer;">
+              <span class="theatre-star-input" data-rating="1">☆</span>
+              <span class="theatre-star-input" data-rating="2">☆</span>
+              <span class="theatre-star-input" data-rating="3">☆</span>
+              <span class="theatre-star-input" data-rating="4">☆</span>
+              <span class="theatre-star-input" data-rating="5">☆</span>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 6px; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem;">Your Review</label>
+            <textarea id="theatreReviewText" placeholder="Share your experience..." style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: white; font-size: 0.9rem; min-height: 80px; height: 80px; resize: none;"></textarea>
+          </div>
+          
+          <button id="submitTheatreReviewBtn" style="width: 100%; padding: 10px; margin: 0; background: rgba(255, 42, 109, 0.8); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease;">
+            <i class="fas fa-paper-plane"></i> Submit
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    
+    <h3 class="section-heading" style="font-size: 1.3rem; margin-bottom: 30px;">Movie Reviews</h3>
+    
+    <div class="reviews-grid" id="movieReviewsGrid">
       <div class="review-card">
         <div class="review-header">
           <img src="images/batman.jpg" alt="Reviewer">
@@ -4548,8 +4650,9 @@ section:last-child {
 <!-- Theatre Reviews Section -->
 <section class="theatre-reviews-section">
   <div class="reviews-container">
-    <h2 class="section-heading">THEATRE EXPERIENCE REVIEWS</h2>
-    <div class="theatre-reviews-grid">
+    <h3 class="section-heading" style="font-size: 1.3rem; margin-bottom: 30px;">Theatre Reviews</h3>
+    
+    <div class="theatre-reviews-grid" id="theatreReviewsGrid">
       <div class="theatre-review-card">
         <div class="theatre-info">
           <h3><i class="fas fa-theater-masks"></i> Grand Cinema IMAX</h3>
@@ -4677,6 +4780,7 @@ function updateHeroContent() {
     let genre = "Sci-Fi/Drama";
     if (title.includes("Dark Knight") || title.includes("Batman")) genre = "Action/Thriller";
     if (title.includes("Jumanji")) genre = "Adventure/Comedy";
+    if (title.includes("Jujutsu Kaisen")) genre = "Action/Supernatural";
     
     const heroTitle = document.querySelector(".hero .overlay .title");
     const heroMeta = document.querySelector(".hero .overlay .meta");
@@ -6845,6 +6949,262 @@ function createTrail(x, y) {
   setTimeout(() => t.remove(), 500);
 }
 
+// Review System
+let selectedMovieRating = 0;
+let selectedTheatreRating = 0;
+
+// Star rating input styling
+const starInputStyle = document.createElement('style');
+starInputStyle.textContent = `
+  .star-input, .theatre-star-input {
+    color: rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
+  }
+  .star-input:hover, .theatre-star-input:hover,
+  .star-input.active, .theatre-star-input.active {
+    color: #ffd700;
+    transform: scale(1.2);
+  }
+`;
+document.head.appendChild(starInputStyle);
+
+// Initialize review system
+function initReviewSystem() {
+  const currentUser = localStorage.getItem('currentUser');
+  
+  // Show review forms container only if user is logged in
+  if (currentUser) {
+    const addReviewsContainer = document.getElementById('addReviewsContainer');
+    if (addReviewsContainer) addReviewsContainer.style.display = 'block';
+  }
+  
+  // Add hover effects to submit buttons
+  const submitBtns = document.querySelectorAll('#submitReviewBtn, #submitTheatreReviewBtn');
+  submitBtns.forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      btn.style.background = 'rgba(255, 42, 109, 1)';
+      btn.style.transform = 'translateY(-2px)';
+      btn.style.boxShadow = '0 4px 15px rgba(255, 42, 109, 0.4)';
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.background = 'rgba(255, 42, 109, 0.8)';
+      btn.style.transform = 'translateY(0)';
+      btn.style.boxShadow = 'none';
+    });
+  });
+  
+  // Movie review star rating
+  const starInputs = document.querySelectorAll('.star-input');
+  starInputs.forEach((star, index) => {
+    star.addEventListener('click', () => {
+      selectedMovieRating = parseInt(star.dataset.rating);
+      starInputs.forEach((s, i) => {
+        if (i < selectedMovieRating) {
+          s.textContent = '★';
+          s.classList.add('active');
+        } else {
+          s.textContent = '☆';
+          s.classList.remove('active');
+        }
+      });
+    });
+  });
+  
+  // Theatre review star rating
+  const theatreStarInputs = document.querySelectorAll('.theatre-star-input');
+  theatreStarInputs.forEach((star, index) => {
+    star.addEventListener('click', () => {
+      selectedTheatreRating = parseInt(star.dataset.rating);
+      theatreStarInputs.forEach((s, i) => {
+        if (i < selectedTheatreRating) {
+          s.textContent = '★';
+          s.classList.add('active');
+        } else {
+          s.textContent = '☆';
+          s.classList.remove('active');
+        }
+      });
+    });
+  });
+  
+  // Submit movie review
+  const submitReviewBtn = document.getElementById('submitReviewBtn');
+  if (submitReviewBtn) {
+    submitReviewBtn.addEventListener('click', () => {
+      if (!currentUser) {
+        showToast('Please log in to submit a review', true);
+        return;
+      }
+      
+      const movieName = document.getElementById('reviewMovieName').value.trim();
+      const reviewText = document.getElementById('reviewText').value.trim();
+      
+      if (!movieName || !reviewText || selectedMovieRating === 0) {
+        showToast('Please fill in all fields and select a rating', true);
+        return;
+      }
+      
+      const review = {
+        id: Date.now(),
+        userName: currentUser,
+        movieName: movieName,
+        rating: selectedMovieRating,
+        text: reviewText,
+        date: new Date().toISOString()
+      };
+      
+      let reviews = JSON.parse(localStorage.getItem('movieReviews') || '[]');
+      reviews.unshift(review);
+      localStorage.setItem('movieReviews', JSON.stringify(reviews));
+      
+      document.getElementById('reviewMovieName').value = '';
+      document.getElementById('reviewText').value = '';
+      selectedMovieRating = 0;
+      starInputs.forEach(s => {
+        s.textContent = '☆';
+        s.classList.remove('active');
+      });
+      
+      loadMovieReviews();
+      showToast('Review submitted successfully!');
+    });
+  }
+  
+  // Submit theatre review
+  const submitTheatreReviewBtn = document.getElementById('submitTheatreReviewBtn');
+  if (submitTheatreReviewBtn) {
+    submitTheatreReviewBtn.addEventListener('click', () => {
+      if (!currentUser) {
+        showToast('Please log in to submit a review', true);
+        return;
+      }
+      
+      const theatreName = document.getElementById('theatreName').value.trim();
+      const theatreLocation = document.getElementById('theatreLocation').value.trim();
+      const reviewText = document.getElementById('theatreReviewText').value.trim();
+      
+      if (!theatreName || !theatreLocation || !reviewText || selectedTheatreRating === 0) {
+        showToast('Please fill in all fields and select a rating', true);
+        return;
+      }
+      
+      const review = {
+        id: Date.now(),
+        userName: currentUser,
+        theatreName: theatreName,
+        location: theatreLocation,
+        rating: selectedTheatreRating,
+        text: reviewText,
+        date: new Date().toISOString()
+      };
+      
+      let reviews = JSON.parse(localStorage.getItem('theatreReviews') || '[]');
+      reviews.unshift(review);
+      localStorage.setItem('theatreReviews', JSON.stringify(reviews));
+      
+      document.getElementById('theatreName').value = '';
+      document.getElementById('theatreLocation').value = '';
+      document.getElementById('theatreReviewText').value = '';
+      selectedTheatreRating = 0;
+      theatreStarInputs.forEach(s => {
+        s.textContent = '☆';
+        s.classList.remove('active');
+      });
+      
+      loadTheatreReviews();
+      showToast('Theatre review submitted successfully!');
+    });
+  }
+  
+  loadMovieReviews();
+  loadTheatreReviews();
+}
+
+function loadMovieReviews() {
+  const reviewsGrid = document.getElementById('movieReviewsGrid');
+  if (!reviewsGrid) return;
+  
+  const userReviews = JSON.parse(localStorage.getItem('movieReviews') || '[]');
+  
+  // Store existing static reviews only once on first load
+  if (!reviewsGrid.dataset.staticReviewsStored) {
+    reviewsGrid.dataset.staticReviews = reviewsGrid.innerHTML;
+    reviewsGrid.dataset.staticReviewsStored = 'true';
+  }
+  
+  const existingReviews = reviewsGrid.dataset.staticReviews || '';
+  
+  if (userReviews.length > 0) {
+    const userReviewsHTML = userReviews.map(review => {
+      const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+      return `
+        <div class="review-card">
+          <div class="review-header">
+            <img src="images/user-avatar.png" alt="User" onerror="this.src='images/dune.jpg'">
+          </div>
+          <div class="review-content">
+            <div class="reviewer-info">
+              <h4><i class="fas fa-user"></i> ${review.userName}</h4>
+              <div class="star-rating">${stars}</div>
+            </div>
+            <p class="review-text">${review.text}</p>
+            <span class="review-movie"><i class="fas fa-film"></i> ${review.movieName}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+    
+    // Append user reviews AFTER existing reviews
+    reviewsGrid.innerHTML = existingReviews + userReviewsHTML;
+  } else {
+    reviewsGrid.innerHTML = existingReviews;
+  }
+}
+
+function loadTheatreReviews() {
+  const reviewsGrid = document.getElementById('theatreReviewsGrid');
+  if (!reviewsGrid) return;
+  
+  const userReviews = JSON.parse(localStorage.getItem('theatreReviews') || '[]');
+  
+  // Store existing static reviews only once on first load
+  if (!reviewsGrid.dataset.staticReviewsStored) {
+    reviewsGrid.dataset.staticReviews = reviewsGrid.innerHTML;
+    reviewsGrid.dataset.staticReviewsStored = 'true';
+  }
+  
+  const existingReviews = reviewsGrid.dataset.staticReviews || '';
+  
+  if (userReviews.length > 0) {
+    const userReviewsHTML = userReviews.map(review => {
+      const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+      const ratingValue = (review.rating / 5 * 5).toFixed(1);
+      return `
+        <div class="theatre-review-card">
+          <div class="theatre-info">
+            <h3><i class="fas fa-theater-masks"></i> ${review.theatreName}</h3>
+            <div class="theatre-location"><i class="fas fa-map-marker-alt"></i> ${review.location}</div>
+          </div>
+          <div class="theatre-rating">
+            <div class="star-rating">${stars}</div>
+            <span class="rating-text">${ratingValue}/5</span>
+          </div>
+          <p class="theatre-review-text">${review.text}</p>
+          <div class="reviewer-name"><i class="fas fa-pen"></i> ${review.userName}</div>
+        </div>
+      `;
+    }).join('');
+    
+    // Append user reviews AFTER existing reviews
+    reviewsGrid.innerHTML = existingReviews + userReviewsHTML;
+  } else {
+    reviewsGrid.innerHTML = existingReviews;
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initReviewSystem);
+
 const balls = [
   {
     el: document.getElementById("bubble1"),
@@ -6917,6 +7277,16 @@ if (CAN_MOVE && footer) {
     balls[1].el.style.right = "20px";
     balls[1].el.style.bottom = "20px";
   }
+}
+
+// Offline detection - redirect to error page
+window.addEventListener('offline', () => {
+  window.location.href = 'error.html';
+});
+
+// Check connection on load
+if (!navigator.onLine) {
+  window.location.href = 'error.html';
 }
 </script>
 

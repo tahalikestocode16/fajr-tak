@@ -3512,54 +3512,121 @@
             </div>
             <div class="cartModalFooter">
                 <span id="cartSummary" class="cartSummary">0 items</span>
-                <button id="checkoutBtn" class="checkout-btn" disabled>Checkout</button>
+                <div style="padding: 15px; text-align: center; background: rgba(255, 42, 109, 0.1); border-radius: 8px; border: 1px solid rgba(255, 42, 109, 0.3);">
+                    <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 10px; font-size: 0.95rem;">
+                        <i class="fas fa-info-circle"></i> To complete your purchase
+                    </p>
+                    <a href="index.html" style="display: inline-block; padding: 10px 20px; background: linear-gradient(135deg, #ff2a6d, #8a2be2); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: all 0.3s ease;">
+                        <i class="fas fa-home"></i> Go to Home Page to Checkout
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Checkout Modal -->
-    <div id="checkoutModal" class="checkout-modal">
+    <!-- Checkout Modal Removed - Users directed to home page for checkout -->
+    <!-- <div id="checkoutModal" class="checkout-modal">
         <div class="checkout-dialog">
-            <h3>Checkout</h3>
-            <p>Enter your details to complete the purchase. (Demo only — no real payment.)</p>
-
-            <div>
-                <div class="checkout-label">Full Name</div>
-                <input id="checkoutName" type="text" class="checkout-input" placeholder="John Doe" />
+            <div class="checkout-header">
+                <h3>💳 Checkout</h3>
+                <div id="checkoutModalClose" class="checkout-close">×</div>
             </div>
-
-            <div style="margin-top: 16px;">
-                <div class="checkout-label">Email</div>
-                <input id="checkoutEmail" type="email" class="checkout-input" placeholder="you@example.com" />
-            </div>
-
-            <div style="margin-top: 16px;">
-                <div class="checkout-label">Card Number</div>
-                <input id="checkoutCard" type="text" class="checkout-input" placeholder="1234 5678 9012 3456" maxlength="19" />
-            </div>
-
-            <div class="checkout-row" style="margin-top: 16px;">
-                <div style="flex: 1;">
-                    <div class="checkout-label">Expiry</div>
-                    <input id="checkoutExpiry" type="text" class="checkout-input" placeholder="MM/YY" maxlength="5" />
+            <div class="checkout-body">
+                <!-- Animated Credit Card -->
+                <div class="card-wrapper">
+                    <div class="card-item" id="creditCard">
+                        <!-- Front of Card -->
+                        <div class="card-side front">
+                            <div class="card-cover"></div>
+                            <div class="card-focus" id="cardFocus"></div>
+                            <div class="card-content">
+                                <div class="card-top">
+                                    <div class="card-chip"></div>
+                                    <div class="card-type">
+                                        <img id="cardTypeImg" src="" alt="" class="card-type-img" style="display: none;">
+                                    </div>
+                                </div>
+                                <div class="card-number" id="cardNumberDisplay">
+                                    <span class="card-number-item">####</span>
+                                    <span class="card-number-item">####</span>
+                                    <span class="card-number-item">####</span>
+                                    <span class="card-number-item">####</span>
+                                </div>
+                                <div class="card-info">
+                                    <div class="card-holder">
+                                        <div class="card-holder-label">Card Holder</div>
+                                        <div class="card-holder-name" id="cardHolderDisplay">Full Name</div>
+                                    </div>
+                                    <div class="card-date">
+                                        <div class="card-date-label">Expires</div>
+                                        <div class="card-date-value" id="cardDateDisplay">MM/YY</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Back of Card -->
+                        <div class="card-side back">
+                            <div class="card-cover"></div>
+                            <div class="card-band"></div>
+                            <div class="card-cvv">
+                                <div class="card-cvv-label">CVV</div>
+                                <div class="card-cvv-band" id="cardCvvDisplay">***</div>
+                                <div class="card-type">
+                                    <img id="cardTypeImgBack" src="" alt="" class="card-type-img" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="flex: 1;">
-                    <div class="checkout-label">CVV</div>
-                    <input id="checkoutCvv" type="password" class="checkout-input" placeholder="123" maxlength="4" />
+
+                <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 20px; margin-top: 20px;">Enter your details to complete the purchase. (Demo only — no real payment.)</p>
+
+                <div style="margin-bottom: 15px;">
+                    <div class="checkout-label">Card Number</div>
+                    <input id="checkoutCard" type="text" class="checkout-input" placeholder="1234 5678 9012 3456" maxlength="19" autocomplete="off" />
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div class="checkout-label">Card Holder</div>
+                    <input id="checkoutName" type="text" class="checkout-input" placeholder="John Doe" autocomplete="off" />
+                </div>
+
+                <div class="checkout-row" style="margin-bottom: 15px;">
+                    <div style="flex:1; margin-right: 10px;">
+                        <div class="checkout-label">Expiration Date</div>
+                        <div style="display: flex; gap: 10px;">
+                            <select id="checkoutMonth" class="checkout-input" style="flex: 1;">
+                                <option value="">Month</option>
+                            </select>
+                            <select id="checkoutYear" class="checkout-input" style="flex: 1;">
+                                <option value="">Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="flex:1;">
+                        <div class="checkout-label">CVV</div>
+                        <input id="checkoutCvv" type="text" class="checkout-input" placeholder="123" maxlength="4" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <div class="checkout-label">Email</div>
+                    <input id="checkoutEmail" type="email" class="checkout-input" placeholder="you@example.com" />
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <div class="checkout-label">Billing Address</div>
+                    <input id="checkoutAddress" type="text" class="checkout-input" placeholder="Street, City, Country" />
                 </div>
             </div>
-
-            <div style="margin-top: 16px;">
-                <div class="checkout-label">Billing Address</div>
-                <input id="checkoutAddress" type="text" class="checkout-input" placeholder="Street, City, Country" />
-            </div>
-
-            <div class="checkout-actions">
-                <button id="checkoutCancel" class="checkout-cancel">Cancel</button>
-                <button id="checkoutPay" class="checkout-pay">Pay Now</button>
+            <div class="checkout-footer">
+                <div class="checkout-actions">
+                    <button type="button" id="checkoutCancel" class="checkout-cancel">Cancel</button>
+                    <button type="button" id="checkoutPay" class="checkout-pay">Pay Now</button>
+                </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Add-to-cart Toast -->
     <div id="cartToast" class="cart-toast">
@@ -3809,16 +3876,6 @@
             const cartIcon = document.getElementById("cartIcon");
             const cartModal = document.getElementById("cartModal");
             const cartModalClose = document.getElementById("cartModalClose");
-            const checkoutBtn = document.getElementById("checkoutBtn");
-            const checkoutModal = document.getElementById("checkoutModal");
-            const checkoutCancel = document.getElementById("checkoutCancel");
-            const checkoutPay = document.getElementById("checkoutPay");
-            const nameInput = document.getElementById("checkoutName");
-            const emailInput = document.getElementById("checkoutEmail");
-            const cardInput = document.getElementById("checkoutCard");
-            const expiryInput = document.getElementById("checkoutExpiry");
-            const cvvInput = document.getElementById("checkoutCvv");
-            const addressInput = document.getElementById("checkoutAddress");
 
             if (cartIcon && cartModal) {
                 cartIcon.addEventListener("click", (e) => {
@@ -3843,163 +3900,7 @@
                 });
             }
 
-            // Checkout button handler
-            if (checkoutBtn && checkoutModal) {
-                checkoutBtn.addEventListener("click", () => {
-                    if (cartItems.length === 0) return;
-                    checkoutModal.classList.add("show");
-                    cartModal.classList.remove("show");
-                });
-            }
-
-            // Checkout cancel button
-            if (checkoutCancel && checkoutModal) {
-                checkoutCancel.addEventListener("click", () => {
-                    checkoutModal.classList.remove("show");
-                });
-            }
-
-            // Checkout pay button
-            if (checkoutPay && checkoutModal) {
-                checkoutPay.addEventListener("click", () => {
-                    // Basic form validation
-                    const name = nameInput ? nameInput.value.trim() : "";
-                    const email = emailInput ? emailInput.value.trim() : "";
-                    const card = cardInput ? cardInput.value.replace(/\s+/g, "") : "";
-                    const expiry = expiryInput ? expiryInput.value.trim() : "";
-                    const cvv = cvvInput ? cvvInput.value.trim() : "";
-                    const address = addressInput ? addressInput.value.trim() : "";
-
-                    if (!name || !email || !card || !expiry || !cvv || !address) {
-                        showToast("Please fill in all fields before paying.", true);
-                        return;
-                    }
-
-                    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-                    if (!emailOk) {
-                        showToast("Please enter a valid email address.", true);
-                        return;
-                    }
-
-                    const cardOk = /^\d{16}$/.test(card);
-                    if (!cardOk) {
-                        showToast("Enter a valid 16-digit card number (numbers only).", true);
-                        return;
-                    }
-
-                    const cvvOk = /^\d{3,4}$/.test(cvv);
-                    if (!cvvOk) {
-                        showToast("Please enter a valid CVV (3–4 digits).", true);
-                        return;
-                    }
-
-                    const expMatch = expiry.match(/^(\d{2})\/(\d{2})$/);
-                    if (!expMatch) {
-                        showToast("Please enter expiry in MM/YY format.", true);
-                        return;
-                    }
-                    const expMonth = parseInt(expMatch[1], 10);
-                    const expYear = 2000 + parseInt(expMatch[2], 10);
-                    if (expMonth < 1 || expMonth > 12) {
-                        showToast("Please enter a valid expiry month (01–12).", true);
-                        return;
-                    }
-                    const now = new Date();
-                    const expDate = new Date(expYear, expMonth);
-                    if (expDate <= now) {
-                        showToast("This card appears expired. Please use a valid card.", true);
-                        return;
-                    }
-
-                    // Save bookings before clearing cart
-                    const currentUser = localStorage.getItem('currentUser');
-                    if (currentUser && cartItems.length > 0) {
-                        let bookedItems = [];
-                        
-                        // Load existing bookings
-                        const storedBookings = localStorage.getItem('bookings_' + currentUser);
-                        if (storedBookings) {
-                            try {
-                                bookedItems = JSON.parse(storedBookings);
-                            } catch(e) {
-                                console.error('Error parsing bookings:', e);
-                            }
-                        }
-                        
-                        // Add current cart items to bookings
-                        const timestamp = new Date().toISOString();
-                        cartItems.forEach(item => {
-                            const showDate = new Date();
-                            showDate.setDate(showDate.getDate() + 7);
-                            
-                            const booking = {
-                                ...item,
-                                bookingId: 'BK' + Date.now() + Math.floor(Math.random() * 1000),
-                                bookingDate: timestamp,
-                                showDate: showDate.toISOString(),
-                                status: 'Confirmed',
-                                totalAmount: item.price || 9.99,
-                                ticketCount: 1,
-                                image: item.img || item.cardImage || 'images/dune.jpg'
-                            };
-                            bookedItems.push(booking);
-                        });
-                        
-                        // Save bookings to localStorage
-                        localStorage.setItem('bookings_' + currentUser, JSON.stringify(bookedItems));
-                        console.log('Bookings saved:', bookedItems);
-                    }
-                    
-                    // Simple demo "success" flow after validation
-                    showToast("Payment successful! Your tickets have been booked.");
-                    checkoutModal.classList.remove("show");
-                    
-                    // Clear cart after successful payment
-                    cartItems = [];
-                    cartCount = 0;
-                    updateCartDisplay();
-                    renderCartModal();
-                    saveCartToStorage();
-                    
-                    // Clear form
-                    if (nameInput) nameInput.value = "";
-                    if (emailInput) emailInput.value = "";
-                    if (cardInput) cardInput.value = "";
-                    if (expiryInput) expiryInput.value = "";
-                    if (cvvInput) cvvInput.value = "";
-                    if (addressInput) addressInput.value = "";
-                });
-            }
-
-            // Close checkout modal when clicking outside
-            if (checkoutModal) {
-                checkoutModal.addEventListener("click", (e) => {
-                    if (e.target === checkoutModal) {
-                        checkoutModal.classList.remove("show");
-                    }
-                });
-            }
-
-            // Format card number input
-            if (cardInput) {
-                cardInput.addEventListener('input', (e) => {
-                    let value = e.target.value.replace(/\s+/g, '');
-                    if (value.length > 16) value = value.slice(0, 16);
-                    value = value.replace(/(.{4})/g, '$1 ').trim();
-                    e.target.value = value;
-                });
-            }
-
-            // Format expiry input
-            if (expiryInput) {
-                expiryInput.addEventListener('input', (e) => {
-                    let value = e.target.value.replace(/\D/g, '');
-                    if (value.length >= 2) {
-                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
-                    }
-                    e.target.value = value;
-                });
-            }
+            // Checkout functionality removed - users directed to home page for checkout
         }
 
         // Initialize cart on page load
@@ -4048,6 +3949,16 @@
                 });
             }
         });
+
+// Offline detection - redirect to error page
+window.addEventListener('offline', () => {
+  window.location.href = 'error.html';
+});
+
+// Check connection on load
+if (!navigator.onLine) {
+  window.location.href = 'error.html';
+}
     </script>
 </body>
 </html>
