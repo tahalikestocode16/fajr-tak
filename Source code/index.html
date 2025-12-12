@@ -6593,7 +6593,7 @@ body {
   <div class="view-shows-dialog">
     <div class="view-shows-header">
       <h3 id="viewShowsModalTitle">View Shows</h3>
-      <span class="close-view-shows" onclick="closeViewShowsModal()">×</span>
+      <span class="close-view-shows">×</span>
     </div>
     <div class="tabs-section">
       <div class="tabs">
@@ -6605,7 +6605,7 @@ body {
         <!-- Shows will be populated here -->
       </ul>
     </div>
-    <button class="view-shows-close-btn" onclick="closeViewShowsModal()">Close</button>
+    <button class="view-shows-close-btn">Close</button>
   </div>
 </div>
 
@@ -7670,6 +7670,14 @@ function renderCartModal() {
       e.stopPropagation();
       cartItems.splice(index, 1);
       cartCount = cartItems.length;
+      
+      // Save to localStorage so other pages (ubaid.html) can sync
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser) {
+        localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+      }
+      
       updateCartDisplay();
       renderCartModal();
       showToast("Item removed from cart");
@@ -8357,6 +8365,45 @@ function setupCart() {
         return;
       }
 
+      // Save bookings before clearing cart
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser && cartItems.length > 0) {
+        let bookedItems = [];
+        
+        // Load existing bookings
+        const storedBookings = localStorage.getItem('bookings_' + currentUser);
+        if (storedBookings) {
+          try {
+            bookedItems = JSON.parse(storedBookings);
+          } catch(e) {
+            console.error('Error parsing bookings:', e);
+          }
+        }
+        
+        // Add current cart items to bookings
+        const timestamp = new Date().toISOString();
+        cartItems.forEach(item => {
+          const showDate = new Date();
+          showDate.setDate(showDate.getDate() + 7);
+          
+          const booking = {
+            ...item,
+            bookingId: 'BK' + Date.now() + Math.floor(Math.random() * 1000),
+            bookingDate: timestamp,
+            showDate: showDate.toISOString(),
+            status: 'Confirmed',
+            totalAmount: item.price || 9.99,
+            ticketCount: 1,
+            image: item.img || item.cardImage || 'images/dune.jpg'
+          };
+          bookedItems.push(booking);
+        });
+        
+        // Save bookings to localStorage
+        localStorage.setItem('bookings_' + currentUser, JSON.stringify(bookedItems));
+        console.log('Bookings saved:', bookedItems);
+      }
+      
       // Clear cart completely
       cartItems = [];
       cartCount = 0;
@@ -8364,7 +8411,6 @@ function setupCart() {
       renderCartModal();
       
       // Clear all cart data from localStorage
-      const currentUser = localStorage.getItem('currentUser');
       localStorage.setItem('cartItems', JSON.stringify([]));
       if (currentUser) {
         localStorage.setItem('cart_' + currentUser, JSON.stringify([]));
@@ -8373,7 +8419,7 @@ function setupCart() {
       localStorage.removeItem('shoppingCart');
       localStorage.removeItem('userCart');
       
-      showToast("Payment successful (demo). Thank you!");
+      showToast("Payment successful! Your tickets have been booked.");
       checkoutModal.classList.remove("show");
     });
   }
@@ -8474,6 +8520,7 @@ let currentMovieShows = {};
 function generateShowsForMovie(movieTitle) {
   const times = ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"];
   const screens = ["Screen 1", "Screen 2", "Screen 3", "Screen 4"];
+  const movies = ["Batman Beyond", "Superman", "Wonder Woman", "The Flash", "Aquaman", "Justice League", "Iron Man", "Captain America", "Thor", "Hulk"];
   const shows = {
     today: [],
     tomorrow: [],
@@ -8485,7 +8532,8 @@ function generateShowsForMovie(movieTitle) {
     shows.today.push({
       time: times[i],
       screen: screens[Math.floor(Math.random() * screens.length)],
-      seats: Math.floor(Math.random() * 50) + 10
+      seats: Math.floor(Math.random() * 50) + 10,
+      movie: movies[Math.floor(Math.random() * movies.length)]
     });
   }
   
@@ -8494,7 +8542,8 @@ function generateShowsForMovie(movieTitle) {
     shows.tomorrow.push({
       time: times[i + 1],
       screen: screens[Math.floor(Math.random() * screens.length)],
-      seats: Math.floor(Math.random() * 50) + 10
+      seats: Math.floor(Math.random() * 50) + 10,
+      movie: movies[Math.floor(Math.random() * movies.length)]
     });
   }
   
@@ -8503,7 +8552,8 @@ function generateShowsForMovie(movieTitle) {
     shows.week.push({
       time: times[Math.floor(Math.random() * times.length)],
       screen: screens[Math.floor(Math.random() * screens.length)],
-      seats: Math.floor(Math.random() * 50) + 10
+      seats: Math.floor(Math.random() * 50) + 10,
+      movie: movies[Math.floor(Math.random() * movies.length)]
     });
   }
   
@@ -8521,7 +8571,7 @@ function openViewShowsModal(movieTitle) {
     return;
   }
   
-  modalTitle.textContent = `View Shows - ${movieTitle}`;
+  modalTitle.textContent = `View Shows`;
   currentMovieShows = generateShowsForMovie(movieTitle);
   
   // Set active tab to today
@@ -8533,13 +8583,23 @@ function openViewShowsModal(movieTitle) {
   });
   
   // Display today's shows
-  displayShows('today', movieTitle);
+  displayShows('today');
   
   modal.classList.add('show');
+
+  // Tab switching
+  const tabButtons = modal.querySelectorAll('.tab-btn');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      displayShows(this.dataset.tab);
+    });
+  });
 }
 
 // Display shows for selected tab
-function displayShows(tab, movieTitle) {
+function displayShows(tab) {
   const scheduleList = document.getElementById('showsSchedule');
   if (!scheduleList) return;
   
@@ -8552,7 +8612,7 @@ function displayShows(tab, movieTitle) {
     shows.forEach(show => {
       const li = document.createElement('li');
       li.innerHTML = `
-        <span>${show.time}</span> ${movieTitle}<br>
+        <span>${show.time}</span> ${show.movie}<br>
         <small>${show.screen} - Available seats: ${show.seats}</small>
       `;
       li.addEventListener('click', () => {
@@ -8592,6 +8652,11 @@ if (viewShowsClose && viewShowsModal) {
   viewShowsClose.addEventListener("click", closeViewShowsModal);
 }
 
+const viewShowsCloseBtn = document.querySelector('.view-shows-close-btn');
+if (viewShowsCloseBtn) {
+  viewShowsCloseBtn.addEventListener("click", closeViewShowsModal);
+}
+
 if (viewShowsModal) {
   viewShowsModal.addEventListener("click", (e) => {
     if (e.target === viewShowsModal) {
@@ -8602,23 +8667,6 @@ if (viewShowsModal) {
 
 // Tab switching for view shows modal
 document.addEventListener('DOMContentLoaded', function() {
-  const tabButtons = document.querySelectorAll('#viewShowsModal .tab-btn');
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      // Remove active class from all tabs
-      tabButtons.forEach(b => b.classList.remove('active'));
-      // Add active class to clicked tab
-      this.classList.add('active');
-      
-      // Get current movie title
-      const modalTitle = document.getElementById('viewShowsModalTitle');
-      const movieTitle = modalTitle ? modalTitle.textContent.replace('View Shows - ', '') : '';
-      
-      // Display shows for selected tab
-      displayShows(this.dataset.tab, movieTitle);
-    });
-  });
-  
   // Close modal on ESC key
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {

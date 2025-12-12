@@ -4419,8 +4419,47 @@
               return;
             }
 
+            // Save bookings before clearing cart
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser && cartItems.length > 0) {
+              let bookedItems = [];
+              
+              // Load existing bookings
+              const storedBookings = localStorage.getItem('bookings_' + currentUser);
+              if (storedBookings) {
+                try {
+                  bookedItems = JSON.parse(storedBookings);
+                } catch(e) {
+                  console.error('Error parsing bookings:', e);
+                }
+              }
+              
+              // Add current cart items to bookings
+              const timestamp = new Date().toISOString();
+              cartItems.forEach(item => {
+                const showDate = new Date();
+                showDate.setDate(showDate.getDate() + 7);
+                
+                const booking = {
+                  ...item,
+                  bookingId: 'BK' + Date.now() + Math.floor(Math.random() * 1000),
+                  bookingDate: timestamp,
+                  showDate: showDate.toISOString(),
+                  status: 'Confirmed',
+                  totalAmount: item.price || 9.99,
+                  ticketCount: 1,
+                  image: item.img || item.cardImage || 'images/dune.jpg'
+                };
+                bookedItems.push(booking);
+              });
+              
+              // Save bookings to localStorage
+              localStorage.setItem('bookings_' + currentUser, JSON.stringify(bookedItems));
+              console.log('Bookings saved:', bookedItems);
+            }
+            
             // Simple demo "success" flow after validation
-            showCartToast("Payment successful (demo). Thank you!");
+            showCartToast("Payment successful! Your tickets have been booked.");
             checkoutModal.classList.remove("show");
             
             // Clear cart after successful payment
@@ -4431,7 +4470,6 @@
             
             // Clear localStorage
             localStorage.setItem('cartItems', JSON.stringify([]));
-            const currentUser = localStorage.getItem('currentUser');
             if (currentUser) {
               localStorage.setItem('cart_' + currentUser, JSON.stringify([]));
             }

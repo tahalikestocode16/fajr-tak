@@ -1251,6 +1251,43 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
+        .wishlist-item-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 68, 68, 0.2);
+            border: 1px solid rgba(255, 68, 68, 0.4);
+            color: #ff4444;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            opacity: 0;
+            transform: scale(0.8);
+            z-index: 10;
+        }
+
+        .wishlist-item:hover .wishlist-item-remove {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .wishlist-item-remove:hover {
+            background: rgba(255, 68, 68, 0.4);
+            border-color: #ff4444;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .wishlist-item-remove:active {
+            transform: scale(0.95);
+        }
+
         .empty-wishlist {
             text-align: center;
             padding: 40px;
@@ -1486,10 +1523,12 @@
         }
 
         /* Account Section Responsive Design */
-        @media screen and (max-width: 900px) {
+        @media screen and (max-width: 768px) {
             .account-section {
                 flex-direction: column;
                 padding-bottom: 80px; /* Space for bottom navbar */
+                height: auto;
+                max-height: none;
             }
             
             .account-sidebar {
@@ -2360,6 +2399,7 @@
             // Load all sections
             loadCart();
             loadWishlist();
+            loadBookings();
             updateStats();
             
             // Auto-refresh stats and sync with localStorage every 5 seconds
@@ -2379,12 +2419,14 @@
                     updateStats();
                     loadCart();
                     loadWishlist();
+                    loadBookings();
                 }
             });
             
             // Also listen for custom storage events (same-tab updates)
             window.addEventListener('cartUpdated', () => {
                 loadCart();
+                loadBookings();
                 updateStats();
             });
             
@@ -2474,10 +2516,12 @@
             // Create booking entries for each cart item
             const now = new Date();
             cartItems.forEach((item, index) => {
-                // Generate a show date (3-7 days from now, random time)
+                // Use the selected show date and time
                 const showDate = new Date(now);
-                showDate.setDate(showDate.getDate() + Math.floor(Math.random() * 5) + 3); // 3-7 days from now
-                showDate.setHours(Math.floor(Math.random() * 12) + 10, Math.floor(Math.random() * 4) * 15, 0, 0); // Random time between 10 AM - 9:45 PM
+                if (item.time) {
+                    const [hours, minutes] = item.time.split(':');
+                    showDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+                }
                 
                 const booking = {
                     title: item.title,
@@ -2487,7 +2531,8 @@
                     showDate: showDate.toISOString(), // When the movie will be shown
                     totalAmount: item.price || 9.99,
                     ticketCount: item.quantity || 1,
-                    seatNumber: item.seatNumber || null
+                    seatNumber: item.seat || null,
+                    show: item.show || null
                 };
                 bookings.push(booking);
             });
@@ -2747,7 +2792,7 @@
                     <img src="${imgSrc}" alt="${escapeHtml(title)}" class="cart-item-image" onerror="this.onerror=null; if(!this.src.includes('images/dune.jpg') && !this.src.includes('images/batman.png')) { this.src='images/dune.jpg'; } else if(this.src.includes('images/dune.jpg')) { this.src='images/batman.png'; } else { this.style.display='none'; }">
                     <div class="cart-item-content">
                         <div class="cart-item-title">${escapeHtml(title)}</div>
-                        <div class="cart-item-subtitle">Movie Ticket</div>
+                        <div class="cart-item-subtitle">${item.time ? item.time : ''} ${item.show ? '- ' + item.show : ''} ${item.seat ? '- Seat ' + item.seat : ''}</div>
                         <div class="cart-item-price">$${price.toFixed(2)}</div>
                     </div>
                     <button class="cart-item-remove" onclick="removeFromCart(${index})">
@@ -2802,6 +2847,7 @@
                     window.cartItems = cartItems;
                 }
                 loadCart();
+                loadBookings();
                 updateStats();
                 showToast("Item removed from cart");
             }
@@ -2921,6 +2967,7 @@
             let wishlist = [];
             const possibleKeys = [
                 'wishlist_' + currentUser,
+                'wishlistItems',
                 'wishlist',
                 'userWishlist',
                 'favorites',
@@ -2986,9 +3033,55 @@
                     <img src="${imgSrc}" alt="${item.title || 'Movie'}" onerror="this.onerror=null; this.src=(this.src.includes('tvicon') ? 'images/dune.jpg' : (this.src.includes('images/dune.jpg') ? 'images/batman.png' : 'images/dune.jpg'));">
                     <h4>${item.title || 'Untitled Movie'}</h4>
                     <p>${item.year || ''}</p>
+                    <button class="wishlist-item-remove" onclick="removeFromWishlist(${index})">
+                        <i class="fas fa-heart-broken"></i>
+                    </button>
                 </div>
             `;
             }).join('');
+        }
+
+        function removeFromWishlist(index) {
+            const currentUser = localStorage.getItem('currentUser');
+            
+            // Get wishlist from localStorage
+            let wishlist = [];
+            const possibleKeys = [
+                'wishlist_' + currentUser,
+                'wishlistItems'
+            ];
+            
+            for (const key of possibleKeys) {
+                const stored = localStorage.getItem(key);
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            wishlist = parsed;
+                            break;
+                        }
+                    } catch(e) {
+                        console.error('Error parsing wishlist:', e);
+                    }
+                }
+            }
+            
+            if (!Array.isArray(wishlist)) {
+                wishlist = [];
+            }
+            
+            if (index >= 0 && index < wishlist.length) {
+                const removedItem = wishlist[index];
+                wishlist.splice(index, 1);
+                
+                // Save to all localStorage keys for compatibility
+                localStorage.setItem('wishlist_' + currentUser, JSON.stringify(wishlist));
+                localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
+                
+                loadWishlist();
+                updateStats();
+                showToast(removedItem.title + " removed from wishlist");
+            }
         }
 
         function loadBookings() {
@@ -2996,13 +3089,16 @@
             if (!bookingsItems) return;
             
             const currentUser = localStorage.getItem('currentUser');
+            console.log('Loading bookings for user:', currentUser);
             
             // Get bookings from localStorage
             let bookings = [];
             const stored = localStorage.getItem('bookings_' + currentUser);
+            console.log('Stored bookings:', stored);
             if (stored) {
                 try {
                     bookings = JSON.parse(stored);
+                    console.log('Parsed bookings:', bookings);
                 } catch(e) {
                     console.error('Error parsing bookings:', e);
                     bookings = [];
@@ -3035,8 +3131,28 @@
             bookings.sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
 
             bookingsItems.innerHTML = bookings.map((booking, index) => {
-                const movieImagePath = getMovieImagePath(booking.title);
-                let imgSrc = movieImagePath || booking.img || booking.image || 'images/dune.jpg';
+                // Get image from booking data (saved from cart)
+                let imgSrc = booking.image || booking.img || booking.cardImage || '';
+                
+                // If no image in booking, try to get from title mapping
+                if (!imgSrc) {
+                    imgSrc = getMovieImagePath(booking.title);
+                }
+                
+                // Ensure image has proper path format
+                if (imgSrc && !imgSrc.startsWith('images/') && !imgSrc.startsWith('http')) {
+                    // If it's just a filename, add images/ prefix
+                    if (!imgSrc.includes('/')) {
+                        imgSrc = 'images/' + imgSrc;
+                    }
+                }
+                
+                // Final fallback
+                if (!imgSrc) {
+                    imgSrc = 'images/dune.jpg';
+                }
+                
+                console.log('Booking image for', booking.title, ':', imgSrc);
                 
                 // Format booking date (when booking was made)
                 const bookingDate = new Date(booking.bookingDate);
@@ -3211,7 +3327,9 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
-        }        function showToast(message) {
+        }
+        
+        function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');

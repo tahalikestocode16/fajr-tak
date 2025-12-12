@@ -1226,7 +1226,7 @@ section:last-child {
     margin:8px 0;
 }
 
-.add-cart-btn {
+.buy-btn {
     padding: 9px 18px;
     background: #ff2a6d;
     color: white;
@@ -1247,7 +1247,7 @@ section:last-child {
     margin-top: 8px;
 }
 
-.add-cart-btn::before {
+.buy-btn::before {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
     content: "\f145";
@@ -1255,7 +1255,7 @@ section:last-child {
     transition: transform 0.3s ease;
 }
 
-.add-cart-btn::after {
+.buy-btn::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -1268,22 +1268,22 @@ section:last-child {
     transition: width 0.6s ease, height 0.6s ease;
 }
 
-.add-cart-btn:hover {
+.buy-btn:hover {
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 10px 30px rgba(255, 42, 109, 0.5);
     background: #ff5a8d;
 }
 
-.add-cart-btn:hover::before {
+.buy-btn:hover::before {
     transform: scale(1.2) rotate(10deg);
 }
 
-.add-cart-btn:hover::after {
+.buy-btn:hover::after {
     width: 300px;
     height: 300px;
 }
 
-.add-cart-btn:active {
+.buy-btn:active {
     transform: translateY(-1px) scale(1.02);
 }
 
@@ -2624,68 +2624,75 @@ section:last-child {
 /* TICKET MODAL */
 .modal{
     position:fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(8px);
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
     display:none;
     align-items:center;
     justify-content:center;
     z-index: 10000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .modal.show {
     display: flex;
-    opacity: 1;
+}
+.modal-content{
+    background:rgba(17, 17, 34, 0.98);
+    backdrop-filter: blur(20px);
+    padding:25px;
+    border-radius:20px;
+    width:100%;
+    max-width:450px;
+    position:relative;
+    transform:scale(0.8);
+    transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow:0 20px 60px rgba(0,0,0,0.9);
+    border:1px solid rgba(255, 42, 109, 0.3);
+    animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.modal-content{
-    background: radial-gradient(circle at top left, #25122d 0%, #0d0b14 55%, #07060a 100%);
-    border-radius: 20px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 42, 109, 0.3);
-    border: 1px solid rgba(255, 42, 109, 0.4);
-    transform: scale(0.9) translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    overflow: visible;
-    padding: 0;
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .modal.show .modal-content{
-    transform: scale(1) translateY(0);
+    transform:scale(1);
 }
 
 .modal-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px 28px;
-    border-bottom: 1px solid rgba(255, 42, 109, 0.2);
-    background: linear-gradient(135deg, rgba(255, 42, 109, 0.1), rgba(138, 43, 226, 0.1));
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
 }
 .modal-header-left{
     display:flex;
     flex-direction:column;
-    gap:6px;
+    gap:3px;
 }
 .modal-title{
-    font-size: 1.75rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #fff, #ff2a6d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0;
-    letter-spacing: 0.03em;
+    font-size:18px;
+    font-weight:700;
 }
 .modal-rating{
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size:13px;
+    opacity:0.85;
 }
 .modal-tag{
     display:inline-block;
@@ -2695,236 +2702,108 @@ section:last-child {
     background:rgba(255,42,109,0.14);
     border:1px solid rgba(255,42,109,0.5);
 }
-.modal-content > img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 0;
-    margin: 0;
-    display: block;
+.modal img{
+    width:100%;
+    height:210px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:12px;
 }
-
-.modal-body {
-    flex: 1;
-    overflow: visible;
-    padding: 16px 20px;
-}
-
 .selection-step{
-    margin: 12px 0;
-    padding: 12px 16px;
-    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
-    border-radius: 12px;
-    border: 1px solid rgba(255, 42, 109, 0.2);
+    margin:10px 0;
 }
-
 .selection-step p{
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fff, #ff2a6d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size:13px;
+    opacity:0.9;
+    margin-bottom:4px;
 }
-
-.selection-step > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
 .selection-step button{
-    margin: 0;
-    padding: 8px 16px;
-    border: 1px solid rgba(255, 42, 109, 0.3);
-    border-radius: 10px;
-    background: rgba(31, 31, 48, 0.6);
-    backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 13px;
-    font-weight: 600;
-    position: relative;
-    overflow: hidden;
-}
-
-.selection-step button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 42, 109, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.4s ease, height 0.4s ease;
+    margin:5px;
+    padding:8px 14px;
+    border:1px solid rgba(255, 42, 109, 0.3);
+    border-radius:999px;
+    background:rgba(31, 31, 48, 0.8);
+    color:white;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    font-size:13px;
+    font-weight: 500;
 }
 
 .selection-step button:hover {
-    border-color: rgba(255, 42, 109, 0.6);
-    background: rgba(255, 42, 109, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 42, 109, 0.2);
-}
-
-.selection-step button:hover::before {
-    width: 200px;
-    height: 200px;
+    border-color: rgba(255, 42, 109, 0.5);
+    background: rgba(255, 42, 109, 0.1);
 }
 
 .selection-step button.active{
-    background: linear-gradient(135deg, rgba(255, 42, 109, 0.4), rgba(255, 90, 141, 0.4));
-    border-color: rgba(255, 42, 109, 0.7);
-    color: white;
-    box-shadow: 0 4px 15px rgba(255, 42, 109, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-}
-
-.selection-step button.active::before {
-    width: 0;
-    height: 0;
+    background:linear-gradient(135deg, var(--pink), #8a2be2);
+    border-color: var(--pink);
+    box-shadow: 0 4px 10px rgba(255, 42, 109, 0.3);
 }
 .seats{
-    display: flex;
-    gap: 8px;
-    margin: 12px 0;
-    padding: 12px 16px;
-    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
-    border-radius: 12px;
-    border: 1px solid rgba(255, 42, 109, 0.2);
-    justify-content: center;
-    flex-wrap: wrap;
+    display:flex;
+    gap:10px;
+    margin:10px 0 14px;
+    justify-content:center;
+    flex-wrap:wrap;
 }
-
-.seats::before {
-    content: 'Select Seat:';
-    width: 100%;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fff, #ff2a6d);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-align: left;
-    display: block;
-}
-
 .seat-btn{
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 42, 109, 0.4);
-    background: rgba(31, 31, 48, 0.6);
-    backdrop-filter: blur(10px);
-    color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    min-width: 42px;
-    height: 42px;
-    text-align: center;
-    font-size: 12px;
+    padding:10px;
+    border-radius:50%;
+    border:2px solid rgba(255, 42, 109, 0.4);
+    background:rgba(255, 42, 109, 0.1);
+    color:white;
+    cursor:pointer;
+    transition:all 0.3s ease;
+    min-width:40px;
+    height: 40px;
+    text-align:center;
+    font-size:13px;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.seat-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 42, 109, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.4s ease, height 0.4s ease;
 }
 
 .seat-btn:hover {
-    border-color: rgba(255, 42, 109, 0.7);
+    border-color: rgba(255, 42, 109, 0.6);
     background: rgba(255, 42, 109, 0.2);
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 16px rgba(255, 42, 109, 0.3);
-}
-
-.seat-btn:hover::before {
-    width: 150px;
-    height: 150px;
+    transform: scale(1.1);
 }
 
 .seat-btn.active{
-    background: linear-gradient(135deg, rgba(255, 42, 109, 0.5), rgba(255, 90, 141, 0.5));
-    border-color: rgba(255, 42, 109, 0.8);
-    color: white;
-    box-shadow: 0 6px 20px rgba(255, 42, 109, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px) scale(1.05);
-}
-
-.seat-btn.active::before {
-    width: 0;
-    height: 0;
+    background:linear-gradient(135deg, var(--pink), #8a2be2);
+    border-color: var(--pink);
+    box-shadow: 0 4px 10px rgba(255, 42, 109, 0.4);
+    transform: scale(1.1);
 }
 .purchase-btn{
-    background: linear-gradient(135deg, #ff2a6d, #ff5a8d);
+    background:linear-gradient(135deg, var(--pink), #8a2be2);
     border:none;
-    padding: 10px 20px;
+    padding:12px;
     width:100%;
-    border-radius: 12px;
+    border-radius:999px;
     color:white;
     cursor:pointer;
-    font-size: 14px;
-    font-weight: 700;
-    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size:15px;
+    font-weight: 600;
+    transition:all 0.3s ease;
     box-shadow: 0 4px 15px rgba(255, 42, 109, 0.3);
-    margin-top: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    margin-top: 10px;
 }
 
 .purchase-btn:hover{
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 30px rgba(255, 42, 109, 0.6);
-    background: linear-gradient(135deg, #ff5a8d, #ff2a6d);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 42, 109, 0.5);
 }
 
 .purchase-btn:active {
     transform: translateY(0);
 }
 .close-modal{
-    font-size: 1.8rem;
-    color: #ff2a6d;
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    background: rgba(255, 42, 109, 0.1);
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-.close-modal:hover {
-    color: white;
-    background: rgba(255, 42, 109, 0.3);
-    transform: rotate(90deg) scale(1.1);
-}
+    cursor:pointer;
+    font-size:24px;
+    color:white;
     font-weight:bold;
     padding:6px 10px;
     border-radius:50%;
@@ -3237,7 +3116,7 @@ section:last-child {
 
 .checkout-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 24px 28px;
     border-bottom: 1px solid rgba(255, 42, 109, 0.2);
@@ -3253,26 +3132,6 @@ section:last-child {
     background-clip: text;
     margin: 0;
     letter-spacing: 0.03em;
-}
-
-.checkout-close {
-    font-size: 1.8rem;
-    color: #ff2a6d;
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-    background: rgba(255, 42, 109, 0.1);
-}
-
-.checkout-close:hover {
-    color: white;
-    background: rgba(255, 42, 109, 0.3);
-    transform: rotate(90deg) scale(1.1);
 }
 
 .checkout-body {
@@ -3409,80 +3268,6 @@ section:last-child {
     transform: translateY(0);
 }
 
-/* View Shows Modal Styles */
-.tabs-section {
-    margin-top: 10px;
-}
-
-.tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 42, 109, 0.2);
-}
-
-.tab-btn {
-    padding: 10px 20px;
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    bottom: -1px;
-}
-
-.tab-btn:hover {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.tab-btn.active {
-    color: #ff2a6d;
-    border-bottom-color: #ff2a6d;
-}
-
-.schedule {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.schedule li {
-    padding: 16px;
-    margin-bottom: 12px;
-    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.12), rgba(17, 13, 24, 0.95));
-    border-radius: 12px;
-    border: 1px solid rgba(255, 42, 109, 0.2);
-    color: rgba(255, 255, 255, 0.9);
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.schedule li:hover {
-    border-color: rgba(255, 42, 109, 0.5);
-    background: radial-gradient(circle at top left, rgba(255, 42, 109, 0.2), rgba(17, 13, 24, 0.95));
-    transform: translateX(5px);
-}
-
-.schedule li span {
-    display: inline-block;
-    min-width: 70px;
-    font-weight: 700;
-    color: #ff2a6d;
-    margin-right: 15px;
-}
-
-.schedule li small {
-    display: block;
-    margin-top: 6px;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-#viewShowsClose:hover,
 #checkoutModalClose:hover {
     transform: rotate(90deg) scale(1.1);
     color: #ff5a8d;
@@ -4204,6 +3989,71 @@ section:last-child {
         width: 100%;
     }
 }
+/* Time Slot Buttons */
+.time-slot {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 42, 109, 0.3);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.time-slot:hover {
+  background: rgba(255, 42, 109, 0.2);
+  border-color: var(--pink);
+  transform: translateY(-2px);
+}
+
+.time-slot.selected {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 4px 15px rgba(255, 42, 109, 0.5);
+}
+
+/* Seat Buttons */
+.seat {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.seat:hover {
+  background: rgba(255, 42, 109, 0.3);
+  border-color: var(--pink);
+  transform: scale(1.1);
+}
+
+.seat.selected {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 42, 109, 0.5);
+}
+
+.seat.occupied {
+  background: rgba(128, 128, 128, 0.3);
+  border-color: rgba(128, 128, 128, 0.5);
+  cursor: not-allowed;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.seat.occupied:hover {
+  transform: none;
+  background: rgba(128, 128, 128, 0.3);
+}
+
 /* Cart Modal */
 .cartModal {
   position: fixed;
@@ -4519,7 +4369,7 @@ section:last-child {
     <div class="hero-slide" style="background-image:url('images/rob.jpg');" data-title="Oppenheimer" data-year="2023" data-rating="★★★★★" data-description="The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb."></div>
     
     <div class="hero-slide " style="background-image:url('images/interstellar.jpg');" data-title="Interstellar" data-year="2014" data-rating="★★★★★" data-description="A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."></div>
-    <div class="hero-slide" style="background-image:url('images/kai.jpg');" data-title="Shibuya Incidentyear="2023" data-rating="★★★★★" data-description="A group of teenagers are terrorized by a supernatural force in Shibuya, Tokyo."></div>
+    <div class="hero-slide" style="background-image:url('images/kai.jpg');" data-title="Shibuya Incident" data-year="2023" data-rating="★★★★★" data-description="A group of teenagers are terrorized by a supernatural force in Shibuya, Tokyo."></div>
     <div class="hero-slide" style="background-image:url('images/Solo Leveling Poster.jpg');" data-title="Solo Leveling" data-year="2024" data-rating="★★★★★" data-description="The weakest hunter Sung Jin-Woo embarks on an epic journey to become the strongest S-Rank hunter."></div>
     <div class="hero-slide" style="background-image:url('images/tanjiro.jpg');" data-title="Demon slayer" data-year="2001" data-rating="★★★★★" data-description="Tanjiro Kamado, a human who was turned into a demon after consuming a Demon Fruit, begins a quest to become a Demon Slayer to avenge his family and his people."></div>
     <div class="hero-slide" style="background-image:url('images/POSTER STOP ONLINE Attack on Titan - Season 2 - TV Show Poster_Print (Key Art_Regular Style) (Size 24_ x 36_).jpg');" data-title="Attack on Titan" data-year="2013" data-rating="★★★★★" data-description="Humanity fights for survival against man-eating Titans in a post-apocalyptic world."></div>
@@ -4809,30 +4659,7 @@ section:last-child {
 </div>
 
 <!-- TICKET MODAL -->
-<div class="modal" id="ticketModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div class="modal-header-left">
-        <h4 id="modalTitle" class="modal-title"></h4>
-        <div id="modalRating" class="modal-rating"></div>
-      </div>
-      <span class="close-modal" onclick="closeModal()">×</span>
-    </div>
-    <img id="modalImg" src="">
-    <div class="modal-body">
-      <div class="selection-step" id="step1">
-        <p>Select Time:</p>
-        <div id="timeButtons"></div>
-      </div>
-      <div class="selection-step" id="step2" style="display:none">
-        <p>Select Show:</p>
-        <div id="showButtons"></div>
-      </div>
-      <div class="seats" id="seatButtons" style="display:none"></div>
-      <button id="purchaseBtn" class="purchase-btn" style="display:none">Purchase</button>
-    </div>
-  </div>
-</div>
+
 
 <script>
 // HERO CAROUSEL
@@ -4891,6 +4718,33 @@ if (heroWishlistBtn){
     if (!activeSlide) return;
     const title = activeSlide.getAttribute("data-title");
     if (!title) return;
+    
+    // Get hero image
+    const heroImg = activeSlide.style.backgroundImage;
+    let imgSrc = 'images/dune.jpg';
+    if (heroImg) {
+      const match = heroImg.match(/url\(["']?([^"')]+)["']?\)/);
+      if (match && match[1]) {
+        imgSrc = match[1];
+      }
+    }
+    
+    const currentUser = localStorage.getItem('currentUser');
+    let wishlist = JSON.parse(localStorage.getItem('wishlist_' + currentUser) || '[]');
+    
+    if (isActive) {
+      // Add to wishlist if not already there
+      if (!wishlist.find(item => item.title === title)) {
+        wishlist.push({ title, img: imgSrc, image: imgSrc });
+      }
+    } else {
+      // Remove from wishlist
+      wishlist = wishlist.filter(item => item.title !== title);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('wishlist_' + currentUser, JSON.stringify(wishlist));
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
 
     const cards = document.querySelectorAll(".movie-card");
     let matched = false;
@@ -5012,8 +4866,7 @@ function renderMovies(list){
       <h4>${m[0]}</h4>
       <span class="year">${m[1]}</span>
       <div class="stars">${m[2]}</div>
-      <button class="add-cart-btn">Buy</button>
-      <button class="view-shows-btn">View Shows</button>
+      <button class="buy-btn">Buy</button>
     </div>`;
     row.appendChild(card);
 
@@ -5026,13 +4879,30 @@ function renderMovies(list){
           return;
         }
         
-        wishlistBtn.classList.toggle("active");
+        const title = m[0];
+        const img = m[3];
         const isActive = wishlistBtn.classList.contains("active");
+        const currentUser = localStorage.getItem('currentUser');
+        
+        // Load wishlist from localStorage
+        let wishlist = JSON.parse(localStorage.getItem('wishlist_' + currentUser) || '[]');
+        
         if (isActive) {
-          showToast("Added to wishlist");
-        } else {
+          // Remove from wishlist
+          wishlist = wishlist.filter(item => item.title !== title);
+          wishlistBtn.classList.remove("active");
           showToast("Removed from wishlist");
+        } else {
+          // Add to wishlist
+          wishlist.push({ title, img, image: img });
+          wishlistBtn.classList.add("active");
+          showToast("Added to wishlist");
         }
+        
+        // Save to localStorage with user-specific key
+        localStorage.setItem('wishlist_' + currentUser, JSON.stringify(wishlist));
+        // Also save to general key for compatibility
+        localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
     });
 
     // Hide button & unhide overlay
@@ -5065,17 +4935,8 @@ function renderMovies(list){
         }
     });
 
-    // Buy ticket opens modal
-    card.querySelector(".add-cart-btn").addEventListener("click", ()=> openModal(m));
-    
-    // View Shows button
-    const viewShowsBtn = card.querySelector(".view-shows-btn");
-    if (viewShowsBtn) {
-      viewShowsBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        openViewShowsModal(m[0]);
-      });
-    }
+    // Buy button is now handled by setupCart() function which opens the ticket modal
+    // Removed old direct add-to-cart logic
   });
   
   // Re-setup cart buttons for newly created movie cards
@@ -5190,215 +5051,11 @@ applyFilterAndRender();
 
 // TICKET MODAL FUNCTIONS
 let selectedTime="", selectedShow="", selectedSeat="";
-function openModal(m){
-  const modal=document.getElementById("ticketModal"); modal.classList.add("show");
-  document.getElementById("modalImg").src=m[3];
-  document.getElementById("modalTitle").textContent=m[0];
-  document.getElementById("modalRating").textContent=m[2];
 
-  selectedTime=""; selectedShow=""; selectedSeat="";
-  document.getElementById("step1").style.display="block";
-  document.getElementById("step2").style.display="none";
-  document.getElementById("seatButtons").style.display="none";
-  document.getElementById("purchaseBtn").style.display="none";
-
-  const times=["12:00","15:00","18:00"];
-  const timeDiv=document.getElementById("timeButtons"); timeDiv.innerHTML="";
-  times.forEach(t=>{
-    const btn=document.createElement("button"); btn.textContent=t;
-    btn.addEventListener("click",()=>{
-      selectedTime=t;
-      Array.from(timeDiv.children).forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("step2").style.display="block";
-      populateShows();
-    });
-    timeDiv.appendChild(btn);
-  });
-
-  function populateShows(){
-    const shows=["Screen 1","Screen 2","Screen 3"];
-    const showDiv=document.getElementById("showButtons"); showDiv.innerHTML="";
-    shows.forEach(s=>{
-      const btn=document.createElement("button"); btn.textContent=s;
-      btn.addEventListener("click",()=>{
-        selectedShow=s;
-        Array.from(showDiv.children).forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById("seatButtons").style.display="flex";
-        document.getElementById("purchaseBtn").style.display="block";
-        populateSeats();
-      });
-      showDiv.appendChild(btn);
-    });
-  }
-
-  function populateSeats(){
-    const seats=["A1","A2","A3"];
-    const seatDiv=document.getElementById("seatButtons"); seatDiv.innerHTML="";
-    seats.forEach(s=>{
-      const btn=document.createElement("button"); btn.textContent=s; btn.className="seat-btn";
-      btn.addEventListener("click",()=>{
-        selectedSeat=s;
-        Array.from(seatDiv.children).forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
-      });
-      seatDiv.appendChild(btn);
-    });
-  }
-
-  document.getElementById("purchaseBtn").onclick=()=>{
-    if(selectedTime && selectedShow && selectedSeat){
-      // Close ticket modal first
-      closeModal();
-      // Open checkout modal instead of direct purchase
-      const checkoutModal = document.getElementById("checkoutModal");
-      if (checkoutModal) {
-        checkoutModal.classList.add("show");
-      } else {
-        // Fallback if modal not found
-        showToast("Checkout modal not found", true);
-      }
-    } else {
-      showToast("Please select time, show, and seat first", true);
-    }
-  };
-}
-
-// View Shows Modal Functions
-let currentMovieShows = {};
-
-// Generate shows data for movies
-function generateShowsForMovie(movieTitle) {
-  const times = ["10:00", "12:30", "15:00", "17:30", "20:00", "22:30"];
-  const screens = ["Screen 1", "Screen 2", "Screen 3", "Screen 4"];
-  const shows = {
-    today: [],
-    tomorrow: [],
-    week: []
-  };
-  
-  // Generate today's shows
-  for (let i = 0; i < 6; i++) {
-    shows.today.push({
-      time: times[i],
-      screen: screens[Math.floor(Math.random() * screens.length)],
-      seats: Math.floor(Math.random() * 50) + 10
-    });
-  }
-  
-  // Generate tomorrow's shows
-  for (let i = 0; i < 5; i++) {
-    shows.tomorrow.push({
-      time: times[i + 1],
-      screen: screens[Math.floor(Math.random() * screens.length)],
-      seats: Math.floor(Math.random() * 50) + 10
-    });
-  }
-  
-  // Generate this week's shows
-  for (let i = 0; i < 8; i++) {
-    shows.week.push({
-      time: times[Math.floor(Math.random() * times.length)],
-      screen: screens[Math.floor(Math.random() * screens.length)],
-      seats: Math.floor(Math.random() * 50) + 10
-    });
-  }
-  
-  return shows;
-}
-
-// Open View Shows Modal
-function openViewShowsModal(movieTitle) {
-  const modal = document.getElementById('viewShowsModal');
-  const modalTitle = document.getElementById('viewShowsModalTitle');
-  const scheduleList = document.getElementById('showsSchedule');
-  
-  if (!modal || !modalTitle || !scheduleList) {
-    console.error('View shows modal elements not found');
-    return;
-  }
-  
-  modalTitle.textContent = `View Shows - ${movieTitle}`;
-  currentMovieShows = generateShowsForMovie(movieTitle);
-  
-  // Set active tab to today
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.dataset.tab === 'today') {
-      btn.classList.add('active');
-    }
-  });
-  
-  // Display today's shows
-  displayShows('today', movieTitle);
-  
-  modal.classList.add('show');
-}
-
-// Display shows for selected tab
-function displayShows(tab, movieTitle) {
-  const scheduleList = document.getElementById('showsSchedule');
-  if (!scheduleList) return;
-  
-  const shows = currentMovieShows[tab] || [];
-  scheduleList.innerHTML = '';
-  
-  if (shows.length === 0) {
-    scheduleList.innerHTML = '<li style="text-align: center; padding: 30px; color: rgba(255, 255, 255, 0.6);">No shows available for this period.</li>';
-  } else {
-    shows.forEach(show => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span>${show.time}</span> ${movieTitle}<br>
-        <small>${show.screen} - Available seats: ${show.seats}</small>
-      `;
-      li.addEventListener('click', () => {
-        // Optionally open ticket modal when clicking a show
-        showToast(`Selected ${show.time} show at ${show.screen}`);
-      });
-      scheduleList.appendChild(li);
-    });
-  }
-}
-
-// Close View Shows Modal
-function closeViewShowsModal() {
-  const modal = document.getElementById('viewShowsModal');
-  if (modal) {
-    modal.classList.remove('show');
-  }
-}
 
 // Tab switching for view shows modal
 document.addEventListener('DOMContentLoaded', function() {
-  const tabButtons = document.querySelectorAll('.tab-btn');
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      // Remove active class from all tabs
-      tabButtons.forEach(b => b.classList.remove('active'));
-      // Add active class to clicked tab
-      this.classList.add('active');
-      
-      // Get current movie title
-      const modalTitle = document.getElementById('viewShowsModalTitle');
-      const movieTitle = modalTitle ? modalTitle.textContent.replace('View Shows - ', '') : '';
-      
-      // Display shows for selected tab
-      displayShows(this.dataset.tab, movieTitle);
-    });
-  });
-  
   // Close modals when clicking outside
-  const viewShowsModal = document.getElementById('viewShowsModal');
-  if (viewShowsModal) {
-    viewShowsModal.addEventListener('click', function(e) {
-      if (e.target === this) {
-        closeViewShowsModal();
-      }
-    });
-  }
-  
   const checkoutModal = document.getElementById('checkoutModal');
   if (checkoutModal) {
     checkoutModal.addEventListener('click', function(e) {
@@ -5411,7 +5068,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Close modals on ESC key
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-      closeViewShowsModal();
       if (checkoutModal) {
         checkoutModal.classList.remove('show');
       }
@@ -5634,6 +5290,7 @@ document.addEventListener("click", (e) => {
 });
 
 // CHECKOUT MODAL - Initialize after DOM is loaded
+// NOTE: This function is now disabled - the working checkout handler is in setupCart() function
 function initCheckoutModal() {
     const checkoutModal = document.getElementById("checkoutModal");
     const checkoutCancel = document.getElementById("checkoutCancel");
@@ -5641,11 +5298,13 @@ function initCheckoutModal() {
     const checkoutName = document.getElementById("checkoutName");
     const checkoutEmail = document.getElementById("checkoutEmail");
     const checkoutCard = document.getElementById("checkoutCard");
-    const checkoutExpiry = document.getElementById("checkoutExpiry");
+    const checkoutMonth = document.getElementById("checkoutMonth");
+    const checkoutYear = document.getElementById("checkoutYear");
     const checkoutCvv = document.getElementById("checkoutCvv");
     const checkoutAddress = document.getElementById("checkoutAddress");
 
-    // Cancel button handler
+    // Cancel button handler - DISABLED (handled in setupCart now)
+    /*
     if (checkoutCancel) {
         checkoutCancel.addEventListener("click", function(e) {
             e.preventDefault();
@@ -5655,218 +5314,11 @@ function initCheckoutModal() {
             }
         });
     }
+    */
 
-    // Pay button handler with validation
-    if (checkoutPay) {
-        checkoutPay.addEventListener("click", function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Get form values
-            const name = checkoutName ? checkoutName.value.trim() : "";
-            const email = checkoutEmail ? checkoutEmail.value.trim() : "";
-            const card = checkoutCard ? checkoutCard.value.replace(/\s+/g, "").replace(/\D/g, "") : "";
-            const expiry = checkoutExpiry ? checkoutExpiry.value.trim() : "";
-            const cvv = checkoutCvv ? checkoutCvv.value.trim() : "";
-            const address = checkoutAddress ? checkoutAddress.value.trim() : "";
-
-            // Remove error classes
-            [checkoutName, checkoutEmail, checkoutCard, checkoutExpiry, checkoutCvv, checkoutAddress].forEach(el => {
-                if (el) el.classList.remove("error");
-            });
-
-            // Validation - Check all fields are filled
-            if (!name) {
-                showToast("❌ Please enter your full name.", true);
-                if (checkoutName) {
-                    checkoutName.classList.add("error");
-                    checkoutName.focus();
-                }
-                return;
-            }
-            
-            if (!email) {
-                showToast("❌ Please enter your email address.", true);
-                if (checkoutEmail) {
-                    checkoutEmail.classList.add("error");
-                    checkoutEmail.focus();
-                }
-                return;
-            }
-            
-            if (!card) {
-                showToast("❌ Please enter your card number.", true);
-                if (checkoutCard) {
-                    checkoutCard.classList.add("error");
-                    checkoutCard.focus();
-                }
-                return;
-            }
-            
-            if (!expiry) {
-                showToast("❌ Please enter card expiry date.", true);
-                if (checkoutExpiry) {
-                    checkoutExpiry.classList.add("error");
-                    checkoutExpiry.focus();
-                }
-                return;
-            }
-            
-            if (!cvv) {
-                showToast("❌ Please enter CVV.", true);
-                if (checkoutCvv) {
-                    checkoutCvv.classList.add("error");
-                    checkoutCvv.focus();
-                }
-                return;
-            }
-            
-            if (!address) {
-                showToast("❌ Please enter billing address.", true);
-                if (checkoutAddress) {
-                    checkoutAddress.classList.add("error");
-                    checkoutAddress.focus();
-                }
-                return;
-            }
-
-            // Email validation
-            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            if (!emailOk) {
-                showToast("❌ Please enter a valid email address.", true);
-                if (checkoutEmail) {
-                    checkoutEmail.classList.add("error");
-                    checkoutEmail.focus();
-                }
-                return;
-            }
-
-            // Card number validation (must be 16 digits)
-            if (card.length !== 16) {
-                showToast("❌ Card number must be exactly 16 digits.", true);
-                if (checkoutCard) {
-                    checkoutCard.classList.add("error");
-                    checkoutCard.focus();
-                }
-                return;
-            }
-            
-            const cardOk = /^\d{16}$/.test(card);
-            if (!cardOk) {
-                showToast("❌ Enter a valid 16-digit card number (numbers only).", true);
-                if (checkoutCard) {
-                    checkoutCard.classList.add("error");
-                    checkoutCard.focus();
-                }
-                return;
-            }
-
-            // CVV validation
-            const cvvOk = /^\d{3,4}$/.test(cvv);
-            if (!cvvOk) {
-                showToast("❌ Please enter a valid CVV (3–4 digits).", true);
-                if (checkoutCvv) {
-                    checkoutCvv.classList.add("error");
-                    checkoutCvv.focus();
-                }
-                return;
-            }
-
-            // Expiry validation
-            const expMatch = expiry.match(/^(\d{2})\/(\d{2})$/);
-            if (!expMatch) {
-                showToast("❌ Please enter expiry in MM/YY format (e.g., 12/25).", true);
-                if (checkoutExpiry) {
-                    checkoutExpiry.classList.add("error");
-                    checkoutExpiry.focus();
-                }
-                return;
-            }
-            
-            const expMonth = parseInt(expMatch[1], 10);
-            const expYear = 2000 + parseInt(expMatch[2], 10);
-            
-            if (expMonth < 1 || expMonth > 12) {
-                showToast("❌ Please enter a valid expiry month (01–12).", true);
-                if (checkoutExpiry) {
-                    checkoutExpiry.classList.add("error");
-                    checkoutExpiry.focus();
-                }
-                return;
-            }
-            
-            const now = new Date();
-            const expDate = new Date(expYear, expMonth - 1, 1); // Month is 0-indexed
-            if (expDate <= now) {
-                showToast("❌ This card appears expired. Please use a valid card.", true);
-                if (checkoutExpiry) {
-                    checkoutExpiry.classList.add("error");
-                    checkoutExpiry.focus();
-                }
-                return;
-            }
-
-            // Payment successful - show success animation
-            const btn = document.getElementById("purchaseBtn");
-            if (btn) {
-                btn.textContent = "Purchase Successful 🎉";
-                btn.disabled = true;
-            }
-
-            const anim = document.createElement("div");
-            anim.style.position = "fixed";
-            anim.style.left = "0";
-            anim.style.top = "0";
-            anim.style.width = "100%";
-            anim.style.height = "100%";
-            anim.style.pointerEvents = "none";
-            anim.style.display = "flex";
-            anim.style.alignItems = "center";
-            anim.style.justifyContent = "center";
-            anim.style.zIndex = "12000";
-            anim.innerHTML = "<div style='padding:16px 24px;border-radius:999px;background:rgba(2,2,18,0.95);border:2px solid rgba(255,42,109,0.5);box-shadow:0 14px 35px rgba(0,0,0,0.9);font-size:16px;font-weight:600;animation:purchasePulse 0.9s ease-out;color:#ff2a6d;'>Payment Successful! Enjoy your movie! 🍿</div>";
-            document.body.appendChild(anim);
-
-            // Clear cart completely
-            cartItems = [];
-            cartCount = 0;
-            updateCartDisplay();
-            renderCartModal();
-            
-            // Clear all cart data from localStorage
-            const currentUser = localStorage.getItem('currentUser');
-            localStorage.setItem('cartItems', JSON.stringify([]));
-            if (currentUser) {
-              localStorage.setItem('cart_' + currentUser, JSON.stringify([]));
-            }
-            // Clear any other possible cart keys
-            localStorage.removeItem('shoppingCart');
-            localStorage.removeItem('userCart');
-            
-            showToast("✅ Payment successful! Thank you!", false, true);
-            if (checkoutModal) {
-                checkoutModal.classList.remove("show");
-            }
-
-            setTimeout(() => {
-                if (anim && anim.parentNode) anim.parentNode.removeChild(anim);
-                if (btn) {
-                    btn.textContent = "Purchase";
-                    btn.disabled = false;
-                }
-                closeModal();
-            }, 1600);
-        });
-    }
-
-    // Close checkout modal when clicking outside
-    if (checkoutModal) {
-        checkoutModal.addEventListener("click", function(e) {
-            if (e.target === checkoutModal) {
-                checkoutModal.classList.remove("show");
-            }
-        });
-    }
+    // Pay button handler - DISABLED (working version is in setupCart now)
+    // All the old complex validation code has been removed
+    // The simple working version is now in the setupCart() function below
 
     // Format card number input
     if (checkoutCard) {
@@ -5880,15 +5332,16 @@ function initCheckoutModal() {
         });
     }
 
-    // Format expiry input
-    if (checkoutExpiry) {
-        checkoutExpiry.addEventListener("input", function(e) {
+    // Remove error class on change for dropdowns
+    if (checkoutMonth) {
+        checkoutMonth.addEventListener("change", function(e) {
             e.target.classList.remove("error");
-            let value = e.target.value.replace(/\D/g, "");
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + "/" + value.substring(2, 4);
-            }
-            e.target.value = value;
+        });
+    }
+    
+    if (checkoutYear) {
+        checkoutYear.addEventListener("change", function(e) {
+            e.target.classList.remove("error");
         });
     }
 
@@ -5902,13 +5355,14 @@ function initCheckoutModal() {
     });
 }
 
-// Initialize checkout modal when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCheckoutModal);
-} else {
-    // DOM is already loaded
-    initCheckoutModal();
-}
+// Initialize checkout modal when DOM is ready - DISABLED
+// The working checkout handler is now in setupCart() function
+// if (document.readyState === 'loading') {
+//     document.addEventListener('DOMContentLoaded', initCheckoutModal);
+// } else {
+//     // DOM is already loaded
+//     initCheckoutModal();
+// }
 
 // Event Modal Functions
 
@@ -5931,7 +5385,8 @@ function addToWishlistFromTrend(icon, title, year, image) {
         wishlist.push({
             title: title,
             year: year,
-            image: image
+            image: image,
+            img: image
         });
         showToast(title + ' added to wishlist');
     } else {
@@ -5940,7 +5395,9 @@ function addToWishlistFromTrend(icon, title, year, image) {
         showToast(title + ' removed from wishlist');
     }
     
+    // Save to both localStorage keys for compatibility
     localStorage.setItem('wishlist_' + currentUser, JSON.stringify(wishlist));
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
 }
 
 // Newsletter form handler
@@ -6002,33 +5459,11 @@ document.addEventListener('DOMContentLoaded', animateStats);
 
 <!-- Event Modal -->
 
-<!-- View Shows Modal -->
-<div id="viewShowsModal" class="checkout-modal">
-  <div class="checkout-dialog" style="max-width: 650px; width: 90vw;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h3 id="viewShowsModalTitle">View Shows</h3>
-      <span id="viewShowsClose" style="font-size: 28px; color: #ff2a6d; cursor: pointer; padding: 0 8px; transition: all 0.3s; line-height: 1;">×</span>
-    </div>
-    <div class="tabs-section" style="margin-bottom: 20px;">
-      <div class="tabs" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 42, 109, 0.2);">
-        <button class="tab-btn active" data-tab="today">Today</button>
-        <button class="tab-btn" data-tab="tomorrow">Tomorrow</button>
-        <button class="tab-btn" data-tab="week">This Week</button>
-      </div>
-      <ul class="schedule" id="showsSchedule" style="list-style: none; padding: 0; margin: 0; max-height: 400px; overflow-y: auto;">
-        <!-- Shows will be populated here -->
-      </ul>
-    </div>
-    <button class="checkout-cancel" style="width: 100%;" onclick="closeViewShowsModal()">Close</button>
-  </div>
-</div>
-
 <!-- Checkout Modal with Animated Card -->
 <div id="checkoutModal" class="checkout-modal">
   <div class="checkout-dialog">
     <div class="checkout-header">
       <h3>💳 Checkout</h3>
-      <div id="checkoutModalClose" class="checkout-close">×</div>
     </div>
     <div class="checkout-body">
       <!-- Animated Credit Card -->
@@ -6127,6 +5562,80 @@ document.addEventListener('DOMContentLoaded', animateStats);
   </div>
 </div>
 
+<!-- Ticket Selection Modal -->
+<div id="ticketModal" class="cartModal">
+  <div class="cartModalDialog">
+    <div class="cartModalHeader">
+      <h2>🎟️ Select Your Ticket</h2>
+      <div class="cartModalClose" id="ticketModalClose">×</div>
+    </div>
+    <div class="cartModalBody" style="padding: 25px;">
+      <div id="ticketMovieInfo" style="margin-bottom: 25px; padding: 15px; background: rgba(255, 42, 109, 0.1); border-radius: 10px; border: 1px solid rgba(255, 42, 109, 0.3);">
+        <h3 id="ticketMovieTitle" style="color: var(--pink); margin-bottom: 5px;">Movie Title</h3>
+        <p id="ticketMovieYear" style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">Year</p>
+      </div>
+
+      <!-- Date Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-calendar-alt"></i> Select Date
+        </label>
+        <input type="date" id="ticketDate" class="checkout-input" style="width: 100%;" />
+      </div>
+
+      <!-- Screen Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-tv"></i> Select Screen
+        </label>
+        <select id="ticketScreen" class="checkout-input" style="width: 100%;">
+          <option value="">Choose a screen...</option>
+          <option value="IMAX 1">IMAX 1 - Premium Experience</option>
+          <option value="IMAX 2">IMAX 2 - Premium Experience</option>
+          <option value="Screen 1">Screen 1 - Standard</option>
+          <option value="Screen 2">Screen 2 - Standard</option>
+          <option value="Screen 3">Screen 3 - Standard</option>
+          <option value="4DX">4DX - Motion Seats</option>
+          <option value="Dolby Atmos">Dolby Atmos - Premium Sound</option>
+        </select>
+      </div>
+
+      <!-- Time Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-clock"></i> Select Time
+        </label>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px;">
+          <button class="time-slot" data-time="10:00 AM">10:00 AM</button>
+          <button class="time-slot" data-time="1:00 PM">1:00 PM</button>
+          <button class="time-slot" data-time="4:00 PM">4:00 PM</button>
+          <button class="time-slot" data-time="7:00 PM">7:00 PM</button>
+          <button class="time-slot" data-time="10:00 PM">10:00 PM</button>
+        </div>
+      </div>
+
+      <!-- Seat Selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 10px; color: var(--pink); font-weight: 600;">
+          <i class="fas fa-couch"></i> Select Seat
+        </label>
+        <div id="seatMap" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; max-width: 400px; margin: 0 auto;">
+          <!-- Seats will be generated dynamically -->
+        </div>
+        <div style="text-align: center; margin-top: 15px; padding: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+          <span style="color: rgba(255, 255, 255, 0.7);">Selected Seat: </span>
+          <span id="selectedSeatDisplay" style="color: var(--pink); font-weight: 600;">None</span>
+        </div>
+      </div>
+    </div>
+    <div class="cartModalFooter">
+      <button id="ticketConfirmBtn" class="checkoutBtn" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+        <i class="fas fa-shopping-cart"></i> Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- Cart Modal -->
 <div id="cartModal" class="cartModal">
   <div class="cartModalDialog">
@@ -6157,16 +5666,19 @@ document.addEventListener('DOMContentLoaded', animateStats);
 
 <script>
 // ===== Shared toast helper =====
-function showToast(message, isError = false) {
+function showToast(message, isError = false, isSuccess = false) {
   const toast = document.getElementById("cartToast");
   const textEl = document.getElementById("cartToastText");
   if (!toast || !textEl) return;
 
   textEl.textContent = message;
 
-  toast.classList.remove("error");
+  toast.classList.remove("error", "success");
   if (isError) {
     toast.classList.add("error");
+  }
+  if (isSuccess) {
+    toast.classList.add("success");
   }
 
   toast.classList.add("show");
@@ -6178,6 +5690,7 @@ function showToast(message, isError = false) {
 // ===== Add-to-Cart logic =====
 let cartCount = 0;
 let cartItems = []; // each item: { title, img }
+let wishlistItems = []; // each item: { title, img }
 
 // Load cart from localStorage and filter out tvicon images
 function loadCartFromStorage() {
@@ -6259,8 +5772,21 @@ function loadCartFromStorage() {
   }
 }
 
-// Load cart on page load
+// Load wishlist from localStorage
+function loadWishlistFromStorage() {
+  const stored = localStorage.getItem('wishlistItems');
+  if (stored) {
+    try {
+      wishlistItems = JSON.parse(stored);
+    } catch (e) {
+      wishlistItems = [];
+    }
+  }
+}
+
+// Load cart and wishlist on page load
 loadCartFromStorage();
+loadWishlistFromStorage();
 
 function updateCartDisplay() {
   const cartCountEl = document.getElementById("cartCount");
@@ -6418,6 +5944,14 @@ function renderCartModal() {
       e.stopPropagation();
       cartItems.splice(index, 1);
       cartCount = cartItems.length;
+      
+      // Save to localStorage so other pages (ubaid.html) can sync
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser) {
+        localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
+      }
+      
       updateCartDisplay();
       renderCartModal();
       showToast("Item removed from cart");
@@ -6528,8 +6062,18 @@ function showLoginPopup() {
   popup.classList.add('show');
 }
 
+// Ticket Modal Variables
+let currentTicketSelection = {
+  title: '',
+  img: '',
+  date: '',
+  screen: '',
+  time: '',
+  seat: ''
+};
+
 function setupCart() {
-  const buttons = document.querySelectorAll(".add-cart-btn, .watch-btn");
+  const buttons = document.querySelectorAll(".buy-btn, .watch-btn");
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -6620,17 +6164,12 @@ function setupCart() {
         }
       }
       
-      // Add to cart with proper structure including cardImage
-      cartItems.push({ 
-        title: title, 
-        img: imgSrc, 
-        cardImage: imgSrc, 
-        price: 9.99 
-      });
-      cartCount = cartItems.length;
-      updateCartDisplay();
-      renderCartModal();
-      showToast("Item added to cart");
+      // Store movie info and open ticket selection modal
+      currentTicketSelection.title = title;
+      currentTicketSelection.img = imgSrc;
+      
+      // Open ticket modal
+      openTicketModal(title, imgSrc);
     });
   });
 
@@ -6676,6 +6215,104 @@ function setupCart() {
   if (checkoutCancel && checkoutModal) {
     checkoutCancel.addEventListener("click", () => {
       checkoutModal.classList.remove("show");
+    });
+  }
+
+  // Simple Pay Now handler (working version from copymovie.html with booking functionality)
+  if (checkoutPay && checkoutModal) {
+    checkoutPay.addEventListener("click", () => {
+      const nameInput = document.getElementById("checkoutName");
+      const emailInput = document.getElementById("checkoutEmail");
+      const cardInput = document.getElementById("checkoutCard");
+      const monthInput = document.getElementById("checkoutMonth");
+      const yearInput = document.getElementById("checkoutYear");
+      const cvvInput = document.getElementById("checkoutCvv");
+      const addressInput = document.getElementById("checkoutAddress");
+
+      const name = nameInput ? nameInput.value.trim() : "";
+      const email = emailInput ? emailInput.value.trim() : "";
+      const card = cardInput ? cardInput.value.replace(/\s+/g, "").replace(/\D/g, "") : "";
+      const month = monthInput ? monthInput.value : "";
+      const year = yearInput ? yearInput.value : "";
+      const cvv = cvvInput ? cvvInput.value.trim() : "";
+      const address = addressInput ? addressInput.value.trim() : "";
+
+      if (!name || !email || !card || !month || !year || !cvv || !address) {
+        showToast("Please fill in all fields before paying.", true);
+        return;
+      }
+
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!emailOk) {
+        showToast("Please enter a valid email address.", true);
+        return;
+      }
+
+      if (card.length < 13 || card.length > 19) {
+        showToast("Please enter a valid card number.", true);
+        return;
+      }
+
+      // Save bookings before clearing cart
+      const currentUser = localStorage.getItem('currentUser');
+      if (currentUser && cartItems.length > 0) {
+        let bookedItems = [];
+        
+        // Load existing bookings
+        const storedBookings = localStorage.getItem('bookings_' + currentUser);
+        if (storedBookings) {
+          try {
+            bookedItems = JSON.parse(storedBookings);
+          } catch(e) {
+            console.error('Error parsing bookings:', e);
+          }
+        }
+        
+        // Add current cart items to bookings
+        const timestamp = new Date().toISOString();
+        cartItems.forEach(item => {
+          const showDate = new Date();
+          showDate.setDate(showDate.getDate() + 7); // 7 days from now
+          
+          const booking = {
+            ...item,
+            bookingId: 'BK' + Date.now() + Math.floor(Math.random() * 1000),
+            bookingDate: timestamp,
+            showDate: showDate.toISOString(),
+            status: 'Confirmed',
+            totalAmount: item.price || 9.99,
+            ticketCount: 1,
+            image: item.img || item.cardImage || 'images/dune.jpg'
+          };
+          bookedItems.push(booking);
+        });
+        
+        // Save bookings to localStorage
+        localStorage.setItem('bookings_' + currentUser, JSON.stringify(bookedItems));
+        console.log('Bookings saved:', bookedItems);
+      }
+
+      // Clear cart completely
+      cartItems = [];
+      cartCount = 0;
+      updateCartDisplay();
+      renderCartModal();
+      
+      // Clear all cart data from localStorage
+      localStorage.setItem('cartItems', JSON.stringify([]));
+      if (currentUser) {
+        localStorage.setItem('cart_' + currentUser, JSON.stringify([]));
+      }
+      localStorage.removeItem('shoppingCart');
+      localStorage.removeItem('userCart');
+      
+      // Close modals
+      checkoutModal.classList.remove("show");
+      if (cartModal) {
+        cartModal.classList.remove("show");
+      }
+      
+      showToast("✅ Payment successful! Your tickets have been booked.");
     });
   }
 
@@ -6946,64 +6583,207 @@ function setupCart() {
     observer.observe(checkoutModal, { attributes: true });
   }
 
-  if (checkoutPay && checkoutModal) {
-    checkoutPay.addEventListener("click", () => {
-      const nameInput = document.getElementById("checkoutName");
-      const emailInput = document.getElementById("checkoutEmail");
-      const cardInput = document.getElementById("checkoutCard");
-      const monthInput = document.getElementById("checkoutMonth");
-      const yearInput = document.getElementById("checkoutYear");
-      const cvvInput = document.getElementById("checkoutCvv");
-      const addressInput = document.getElementById("checkoutAddress");
+  // Removed duplicate event listener - functionality is handled in initCheckoutModal
+}
 
-      const name = nameInput ? nameInput.value.trim() : "";
-      const email = emailInput ? emailInput.value.trim() : "";
-      const card = cardInput ? cardInput.value.replace(/\s+/g, "").replace(/\D/g, "") : "";
-      const month = monthInput ? monthInput.value : "";
-      const year = yearInput ? yearInput.value : "";
-      const cvv = cvvInput ? cvvInput.value.trim() : "";
-      const address = addressInput ? addressInput.value.trim() : "";
+// Ticket Modal Functions
+function openTicketModal(title, imgSrc) {
+  const ticketModal = document.getElementById('ticketModal');
+  const ticketMovieTitle = document.getElementById('ticketMovieTitle');
+  const ticketMovieYear = document.getElementById('ticketMovieYear');
+  
+  if (ticketMovieTitle) ticketMovieTitle.textContent = title;
+  if (ticketMovieYear) ticketMovieYear.textContent = new Date().getFullYear();
+  
+  // Set minimum date to today
+  const ticketDate = document.getElementById('ticketDate');
+  const today = new Date().toISOString().split('T')[0];
+  if (ticketDate) {
+    ticketDate.setAttribute('min', today);
+    ticketDate.value = today;
+    currentTicketSelection.date = today; // Set initial date
+  }
+  
+  // Generate seats
+  generateSeats();
+  
+  // Reset other selections
+  currentTicketSelection.screen = '';
+  currentTicketSelection.time = '';
+  currentTicketSelection.seat = '';
+  
+  // Clear previous selections visually
+  document.querySelectorAll('.time-slot.selected').forEach(s => s.classList.remove('selected'));
+  document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+  const screenSelect = document.getElementById('ticketScreen');
+  if (screenSelect) screenSelect.value = '';
+  const seatDisplay = document.getElementById('selectedSeatDisplay');
+  if (seatDisplay) seatDisplay.textContent = 'None';
+  
+  if (ticketModal) {
+    ticketModal.classList.add('show');
+  }
+}
 
-      if (!name || !email || !card || !month || !year || !cvv || !address) {
-        showToast("Please fill in all fields before paying.", true);
+function generateSeats() {
+  const seatMap = document.getElementById('seatMap');
+  if (!seatMap) return;
+  
+  seatMap.innerHTML = '';
+  const rows = ['A', 'B', 'C', 'D', 'E'];
+  const seatsPerRow = 8;
+  
+  // Randomly occupy some seats for demo
+  const occupiedSeats = new Set();
+  for (let i = 0; i < 10; i++) {
+    const randomRow = rows[Math.floor(Math.random() * rows.length)];
+    const randomSeat = Math.floor(Math.random() * seatsPerRow) + 1;
+    occupiedSeats.add(`${randomRow}${randomSeat}`);
+  }
+  
+  rows.forEach(row => {
+    for (let i = 1; i <= seatsPerRow; i++) {
+      const seatId = `${row}${i}`;
+      const seat = document.createElement('button');
+      seat.type = 'button';
+      seat.className = 'seat';
+      seat.textContent = seatId;
+      seat.dataset.seat = seatId;
+      
+      if (occupiedSeats.has(seatId)) {
+        seat.classList.add('occupied');
+        seat.disabled = true;
+      } else {
+        seat.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          selectSeat(seatId);
+        });
+      }
+      
+      seatMap.appendChild(seat);
+    }
+  });
+}
+
+function selectSeat(seatId) {
+  // Remove previous selection
+  document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+  
+  // Select new seat
+  const seatBtn = document.querySelector(`[data-seat="${seatId}"]`);
+  if (seatBtn) {
+    seatBtn.classList.add('selected');
+    currentTicketSelection.seat = seatId;
+    
+    const display = document.getElementById('selectedSeatDisplay');
+    if (display) display.textContent = seatId;
+  }
+}
+
+function initTicketModal() {
+  const ticketModal = document.getElementById('ticketModal');
+  const ticketModalClose = document.getElementById('ticketModalClose');
+  const ticketConfirmBtn = document.getElementById('ticketConfirmBtn');
+  const ticketDate = document.getElementById('ticketDate');
+  const ticketScreen = document.getElementById('ticketScreen');
+  
+  // Close modal
+  if (ticketModalClose) {
+    ticketModalClose.addEventListener('click', () => {
+      if (ticketModal) ticketModal.classList.remove('show');
+    });
+  }
+  
+  // Close on outside click
+  if (ticketModal) {
+    ticketModal.addEventListener('click', (e) => {
+      if (e.target === ticketModal) {
+        ticketModal.classList.remove('show');
+      }
+    });
+  }
+  
+  // Time slot selection
+  document.querySelectorAll('.time-slot').forEach(slot => {
+    slot.type = 'button';
+    slot.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+      slot.classList.add('selected');
+      currentTicketSelection.time = slot.dataset.time;
+    });
+  });
+  
+  // Date selection
+  if (ticketDate) {
+    ticketDate.addEventListener('change', (e) => {
+      currentTicketSelection.date = e.target.value;
+    });
+  }
+  
+  // Screen selection
+  if (ticketScreen) {
+    ticketScreen.addEventListener('change', (e) => {
+      currentTicketSelection.screen = e.target.value;
+    });
+  }
+  
+  // Confirm and add to cart
+  if (ticketConfirmBtn) {
+    ticketConfirmBtn.addEventListener('click', () => {
+      // Validate selections
+      if (!currentTicketSelection.date) {
+        showToast('Please select a date', true);
         return;
       }
-
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!emailOk) {
-        showToast("Please enter a valid email address.", true);
+      if (!currentTicketSelection.screen) {
+        showToast('Please select a screen', true);
         return;
       }
-
-      if (card.length < 13 || card.length > 19) {
-        showToast("Please enter a valid card number.", true);
+      if (!currentTicketSelection.time) {
+        showToast('Please select a time', true);
         return;
       }
-
-      // Clear cart completely
-      cartItems = [];
-      cartCount = 0;
+      if (!currentTicketSelection.seat) {
+        showToast('Please select a seat', true);
+        return;
+      }
+      
+      // Add to cart with all selections
+      cartItems.push({
+        title: currentTicketSelection.title,
+        img: currentTicketSelection.img,
+        cardImage: currentTicketSelection.img,
+        price: 9.99,
+        date: currentTicketSelection.date,
+        screen: currentTicketSelection.screen,
+        time: currentTicketSelection.time,
+        seat: currentTicketSelection.seat
+      });
+      
+      cartCount = cartItems.length;
       updateCartDisplay();
       renderCartModal();
+      showToast(currentTicketSelection.title + " added to cart");
       
-      // Clear all cart data from localStorage
+      // Save to localStorage
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
       const currentUser = localStorage.getItem('currentUser');
-      localStorage.setItem('cartItems', JSON.stringify([]));
       if (currentUser) {
-        localStorage.setItem('cart_' + currentUser, JSON.stringify([]));
+        localStorage.setItem('cart_' + currentUser, JSON.stringify(cartItems));
       }
-      // Clear any other possible cart keys
-      localStorage.removeItem('shoppingCart');
-      localStorage.removeItem('userCart');
       
-      checkoutModal.classList.remove("show");
-      showToast("Payment successful! Your tickets have been booked.");
+      // Close modal
+      if (ticketModal) ticketModal.classList.remove('show');
     });
   }
 }
 
 // Initialize cart on page load
 document.addEventListener("DOMContentLoaded", () => {
+  initTicketModal();
   setupCart();
   
   // Sliding navbar background effect
